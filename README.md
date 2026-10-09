@@ -28,25 +28,13 @@ When friends hang out, playing music simultaneously from separate phones usually
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework / UI:** HTML5, CSS3, JavaScript (or React / Vite)
+- **Framework / UI:** HTML5, CSS3 & JavaScript
 - **Audio Engine:** YouTube IFrame Player API
 - **Styling:** Mobile-first, responsive CSS / modern dark UI
 
-### Backend & Sync *(Coming Soon)*
+### Backend & Sync (Coming Soon)
 - **Runtime:** Node.js & Express
 - **Real-Time Protocol:** WebSockets (Socket.io)
 - **Sync Architecture:** NTP-style offset calculation & scheduled playback engine
 
 ---
-
-## 🚀 Getting Started
-
-### Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) and `git` installed on your machine.
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/your-username/unisone.git](https://github.com/your-username/unisone.git)
-   cd unisone
