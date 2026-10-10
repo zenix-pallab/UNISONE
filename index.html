@@ -243,7 +243,7 @@ esc=s=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'
 fmt=s=>{s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')},
 fill=el=>el.style.setProperty('--p',(el.value-el.min)/(el.max-el.min)*100+'%'),
 reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-const CONFIG={SEARCH_URL:''}; // backend step: URL of the search Worker. Empty = sample results
+const CONFIG={SEARCH_URL:'https://unisone-search.gpallab726.workers.dev/'}; // backend step: URL of the search Worker. Empty = sample results
 const COL=['#ff6f59','#ffc15e','#3ddbc4','#a78bfa'];
 const S={room:'',name:'Guest',host:true,queue:[],i:-1,settings:{},people:[]};
 const me=()=>S.people.find(p=>p.id==='me')||{};
