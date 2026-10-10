@@ -163,6 +163,9 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
 .seg button.on{background:var(--ink);color:var(--bg);font-weight:600}
 .sheet .btn{width:100%;margin-top:10px}
 @media(max-width:600px){.bar{flex-wrap:wrap}.rc{flex:1 1 100%}#syncWave{display:none}.pill{margin-right:auto}}
+.tapjoin{position:absolute;inset:0;z-index:2;width:100%;background:rgba(20,16,43,.85);color:var(--ink);font:500 22px Fraunces,serif;display:grid;place-items:center}
+#reqList li{display:flex;align-items:center;gap:12px;padding:8px 0}
+#homeMsg{min-height:22px;margin-top:10px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -172,7 +175,7 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
     <svg viewBox="0 0 32 22" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M2 11c4-10 8-10 14 0s10 10 14 0" stroke="#ff6f59"/><path d="M2 11c4-10 8-10 14 0s10 10 14 0" stroke="#ffc15e" transform="translate(0 1.6)"/><path d="M2 11c4-10 8-10 14 0s10 10 14 0" stroke="#3ddbc4" transform="translate(0 3.2)" opacity=".9"/></svg>
     UNISONE
   </a>
-  <span class="mode" id="mode">Local mode</span>
+  <span class="mode" id="mode">Live</span>
 </header>
 
 <main id="home" class="view">
@@ -189,6 +192,7 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
       </div>
     </div>
   </div>
+  <p class="note" id="homeMsg" role="status"></p>
   <canvas id="heroWave" class="heroWave" aria-hidden="true"></canvas>
 </main>
 
@@ -198,14 +202,15 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
       <button class="code" id="copy" aria-label="Copy room code"><span id="codeTxt"></span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg></button></div>
     <canvas id="syncWave" aria-hidden="true"></canvas>
-    <div class="pill" id="pill"><i></i><span id="pillTxt">Local mode</span></div>
+    <div class="pill" id="pill"><i></i><span id="pillTxt">Connecting…</span></div>
     <button class="gear" id="gear" aria-label="Room settings" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
     <button class="leave" id="leave">Leave</button>
   </div>
   <div class="stage">
     <section class="player">
       <div class="screen"><div id="yt"></div>
-        <div class="empty" id="empty"><b>No song yet</b><span>Paste a YouTube link to start the room.</span></div></div>
+        <div class="empty" id="empty"><b>No song yet</b><span>Paste a YouTube link to start the room.</span></div>
+        <button class="tapjoin" id="tap" hidden>Tap to join the music</button></div>
       <div class="meta"><h2 id="title">Nothing playing</h2><p id="author"></p></div>
       <div class="seek"><span id="tc">0:00</span><input type="range" id="seek" min="0" max="1000" value="0" aria-label="Seek"><span id="td">0:00</span></div>
       <div class="ctl">
@@ -221,6 +226,7 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
       <div><form class="add" id="addF"><input id="link" type="search" placeholder="Search songs or paste a link" autocomplete="off" aria-label="Search songs or paste a YouTube link"><button class="btn primary sm" id="addBtn">Search</button></form>
       <div id="results" hidden><div class="rh"><h3>Results</h3><button class="x" id="closeRes" type="button" aria-label="Close results">×</button></div><p class="note" id="resNote"></p><ul id="resList"></ul></div></div>
       <div><h3>Queue</h3><ol id="queue"></ol></div>
+      <div id="reqBox" hidden><h3>Requests</h3><ul id="reqList"></ul></div>
       <div><h3>Listening <span id="lc">1</span></h3><ul id="ppl"></ul></div>
     </aside>
   </div>
@@ -237,7 +243,19 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
 </form></dialog>
 <div class="toast" id="toast" role="status"></div>
 
-<script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+import{getAuth,signInAnonymously}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+import{getDatabase,ref,set,get,update,push,remove,onValue,onDisconnect,serverTimestamp,runTransaction}from"https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
+const firebaseConfig={
+  apiKey:"AIzaSyDUzjG04lG-LYzZLXVcq_rbGtRn1QMMWS4",
+  authDomain:"unisone-pg164.firebaseapp.com",
+  databaseURL:"https://unisone-pg164-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"unisone-pg164",
+  storageBucket:"unisone-pg164.firebasestorage.app",
+  messagingSenderId:"598372951340",
+  appId:"1:598372951340:web:888fb7a12d8024367e7889"
+};
 const $=s=>document.querySelector(s),
 esc=s=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])),
 fmt=s=>{s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')},
@@ -245,10 +263,16 @@ fill=el=>el.style.setProperty('--p',(el.value-el.min)/(el.max-el.min)*100+'%'),
 reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const CONFIG={SEARCH_URL:'https://unisone-search.gpallab726.workers.dev/'}; // backend step: URL of the search Worker. Empty = sample results
 const COL=['#ff6f59','#ffc15e','#3ddbc4','#a78bfa'];
-const S={room:'',name:'Guest',host:true,queue:[],i:-1,settings:{},people:[]};
+const S={room:'',name:'Guest',host:false,hostUid:'',queue:[],i:-1,settings:{},people:[],unsubs:[],off:0,state:null,curKey:null,sig:'',joined:false};
 const me=()=>S.people.find(p=>p.id==='me')||{};
 const can=()=>S.host||S.settings.control==='everyone'||(S.settings.control==='selected'&&me().dj);
 function guard(){if(can())return true;toast('Only the host can control playback.');return false}
+
+/* ---- Firebase: anonymous identity + clock offset + presence ---- */
+const db=getDatabase(initializeApp(firebaseConfig));let uid='';
+const authReady=signInAnonymously(getAuth()).then(c=>{uid=c.user.uid});
+onValue(ref(db,'.info/serverTimeOffset'),x=>{S.off=x.val()||0});
+onValue(ref(db,'.info/connected'),x=>{if(x.val())announce()});
 let player,ready=false,apiReady=false,drag=false;
 
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2800)}
@@ -278,17 +302,59 @@ const t0=performance.now(),ease=x=>1-Math.pow(1-x,3);
 waves($('#heroWave'),()=>reduce?0:1-ease(Math.min(1,(performance.now()-t0)/3800)),.3);
 waves($('#syncWave'),()=>S.drift||0,.32);
 
-/* ---- Sync layer: the backend step replaces send() so every phone applies the same action ---- */
+/* ---- Sync layer: every action becomes a shared "state" in the database; every phone follows it ---- */
+const LEAD=1200,LOAD=2500,srv=()=>Date.now()+(S.off||0),P=p=>'rooms/'+S.room+'/'+p;
+let timer;
 const Sync={
-  send(a){if(guard())this.apply(a)},          // later: write action to the database; all phones receive it
-  apply(a){
-    if(!ready&&a.type!=='add')return;
-    if(a.type==='play')player.playVideo();
-    if(a.type==='pause')player.pauseVideo();
-    if(a.type==='seek')player.seekTo(a.t,true);
-    if(a.type==='load')load(a.i);
+  async put(o){
+    if(!guard())return;
+    Object.keys(o).forEach(k=>o[k]===undefined&&delete o[k]);
+    try{await set(ref(db,P('state')),o)}catch(_){toast('The host hasn\u2019t allowed that.')}
+  },
+  send(a){
+    const st=S.state||{},pos=ready&&S.curKey?(player.getCurrentTime()||0):(st.pos||0);
+    if(a.type==='play')this.put({cur:S.curKey,playing:true,pos,at:srv()+LEAD});
+    if(a.type==='pause')this.put({cur:S.curKey,playing:false,pos,at:srv()});
+    if(a.type==='seek')this.put({cur:S.curKey,playing:!!st.playing,pos:a.t||0,at:srv()+(st.playing?LEAD:0)});
+    if(a.type==='load'&&S.queue[a.i])this.put({cur:S.queue[a.i].k,playing:true,pos:0,at:srv()+LOAD});
+  },
+  async advance(k){
+    if(!k)return;
+    const nx=S.queue[S.queue.findIndex(x=>x.k===k)+1];
+    try{await runTransaction(ref(db,P('state')),c=>{
+      if(!c||c.cur!==k)return;
+      return nx?{cur:nx.k,playing:true,pos:0,at:srv()+LOAD}:{playing:false,pos:0,at:srv()};
+    })}catch(_){}
   }
 };
+function applyState(){
+  const st=S.state;if(!ready||!st)return;
+  const q=S.queue.find(x=>x.k===st.cur);
+  if(!q){clearTimeout(timer);if(S.curKey){S.curKey=null;S.sig='';player.stopVideo()}render();return}
+  const sig=[st.cur,st.playing,st.pos,st.at].join('|');if(sig===S.sig)return;S.sig=sig;
+  clearTimeout(timer);$('#tap').hidden=true;
+  const fresh=S.curKey!==st.cur,wait=st.at-srv(),late=st.playing&&wait<=0,start=late?st.pos-wait/1000:st.pos;
+  S.curKey=st.cur;render();
+  if(fresh)(late?player.loadVideoById:player.cueVideoById).call(player,{videoId:q.id,startSeconds:start});
+  else player.seekTo(start,true);
+  if(!st.playing)player.pauseVideo();
+  else if(wait>0){player.pauseVideo();timer=setTimeout(()=>player.playVideo(),wait)}
+  else if(!fresh)player.playVideo();
+}
+$('#tap').onclick=()=>{$('#tap').hidden=true;if(ready)player.playVideo();S.sig='';applyState()};
+/* drift correction: every 1.5 s compare our player with the shared clock */
+setInterval(()=>{
+  const st=S.state;if(!ready||!S.room||!st)return;
+  const ps=player.getPlayerState(),now=srv(),pill=$('#pill'),txt=$('#pillTxt');
+  if(!st.playing||!S.curKey){pill.className='pill ok';txt.textContent='Connected';S.drift=0;return}
+  if(now<st.at||ps===0)return;
+  if(ps!==1&&ps!==3){if(now>st.at+3000)$('#tap').hidden=false;return}
+  if(ps===1)$('#tap').hidden=true;
+  const exp=st.pos+(now-st.at)/1000,d=player.getCurrentTime()-exp,ok=Math.abs(d)<=.3;
+  S.drift=Math.min(1,Math.abs(d)*2);
+  if(!ok&&ps===1)player.seekTo(exp+.15,true);
+  pill.className='pill'+(ok?' ok':'');txt.textContent=ok?'Synced \u00b7 '+Math.round(Math.abs(d)*1000)+' ms':'Syncing\u2026';
+},1500);
 
 /* ---- YouTube engine (official IFrame API) with our own controls ---- */
 const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
@@ -298,19 +364,18 @@ function initPlayer(){
   player=new YT.Player('yt',{width:'100%',height:'100%',
     playerVars:{controls:0,playsinline:1,rel:0,modestbranding:1,disablekb:1,iv_load_policy:3},
     events:{
-      onReady:()=>{ready=true;player.setVolume(+$('#vol').value);if(S.i>=0)load(S.i)},
-      onStateChange:onState,
-      onError:()=>{toast('This video can\u2019t be embedded. Skipping it.');step(1,true)}
+      onReady:()=>{ready=true;player.setVolume(+$('#vol').value);applyState()},
+      onStateChange:onState,onAutoplayBlocked:()=>{$('#tap').hidden=false},
+      onError:()=>{toast('This video can\u2019t be embedded. Skipping it.');Sync.advance(S.curKey)}
     }});
 }
 function onState(e){
   const on=e.data===1;$('#pp').classList.toggle('on',on);document.body.classList.toggle('is-playing',on);$('#pp').setAttribute('aria-label',on?'Pause':'Play');
   if(on&&S.i>=0){const v=player.getVideoData(),q=S.queue[S.i];
     if(v&&v.title&&q.title!==v.title){q.title=v.title;q.author=v.author||q.author;render()}}
-  if(e.data===0)step(1,true);
+  if(e.data===0)Sync.advance(S.curKey);
 }
-function load(i){S.i=i;if(ready)player.loadVideoById(S.queue[i].id);render()}
-function step(d,auto){const n=S.i+d;if(n>=0&&n<S.queue.length)Sync[auto?'apply':'send']({type:'load',i:n})}
+function step(d){const n=S.i+d;if(S.queue[n])Sync.send({type:'load',i:n})}
 setInterval(()=>{
   if(!ready||!player.getDuration)return;
   const d=player.getDuration()||0,t=player.getCurrentTime()||0;
@@ -320,7 +385,7 @@ setInterval(()=>{
 
 /* ---- Rendering ---- */
 function render(){
-  const q=S.queue[S.i];
+  S.i=S.queue.findIndex(x=>x.k===S.curKey);const q=S.queue[S.i];
   $('#title').textContent=q?q.title:'Nothing playing';
   $('#author').textContent=q?q.author:'';
   $('#empty').hidden=S.i>=0;
@@ -330,10 +395,10 @@ function render(){
 }
 function people(){
   const st=S.settings;
-  $('#lc').textContent=S.people.length+' / '+st.max;
+  $('#lc').textContent=S.people.length+' / '+(st.max||10);
   $('#ppl').innerHTML=S.people.map((p,k)=>{
     const tag=p.host?'<em>Host</em>':(st.control==='selected'&&p.dj?'<em class="dj">Can control</em>':'');
-    const ctl=S.host&&!p.host?`<span class="pc">${st.control==='selected'?`<button class="sw${p.dj?' on':''}" data-dj="${p.id}" role="switch" aria-checked="${!!p.dj}" aria-label="Can control playback"></button>`:''}<button data-kick="${p.id}" aria-label="Remove ${esc(p.name)}">\u00d7</button></span>`:'';
+    const ctl=S.host&&!p.host?`<span class="pc">${st.control==='selected'?`<button class="sw${p.dj?' on':''}" data-dj="${p.uid}" role="switch" aria-checked="${!!p.dj}" aria-label="Can control playback"></button>`:''}<button data-kick="${p.uid}" aria-label="Remove ${esc(p.name)}">\u00d7</button></span>`:'';
     return `<li><span class="av" style="background:${COL[k%4]}">${esc((p.name[0]||'G').toUpperCase())}</span><span class="nm">${esc(p.name)}${p.id==='me'?' <small>(you)</small>':''}${p.sample?' <small>sample</small>':''}</span>${tag}${ctl}</li>`}).join('');
 }
 function applyPerms(){
@@ -342,30 +407,109 @@ function applyPerms(){
   $('#link').placeholder=add?'Search songs or paste a link':'Only the host can add songs';
   $('#gear').hidden=!S.host;
 }
-function remove(k){
-  S.queue.splice(k,1);
-  if(k<S.i)S.i--;
-  else if(k===S.i){if(S.queue.length)load(Math.min(k,S.queue.length-1));else{S.i=-1;ready&&player.stopVideo()}}
-  render();
+async function removeSong(idx){
+  const q=S.queue[idx];if(!q||!guard())return;
+  try{
+    if(q.k===S.curKey){const nx=S.queue[idx+1];
+      await set(ref(db,P('state')),nx?{cur:nx.k,playing:true,pos:0,at:srv()+LOAD}:{playing:false,pos:0,at:srv()})}
+    await remove(ref(db,P('queue/'+q.k)));
+  }catch(_){toast('Not allowed.')}
 }
+function announce(){
+  if(!S.room||!uid)return;
+  const m=ref(db,P('members/'+uid));
+  set(m,{name:S.name,joinedAt:serverTimestamp(),dj:S.host}).catch(()=>{});
+  onDisconnect(m).remove();
+}
+function listen(){
+  const on=(p,f)=>S.unsubs.push(onValue(ref(db,P(p)),f));
+  on('host',x=>{if(x.exists()){S.hostUid=x.val();S.host=S.hostUid===uid;applyPerms();people()}else exit('The host closed the room.')});
+  on('settings',x=>{S.settings=x.val()||{};settingsUI();people();applyPerms()});
+  on('members',x=>{
+    const m=x.val()||{};S.inRoom=!!m[uid];
+    S.people=Object.entries(m).map(([id,v])=>({id:id===uid?'me':id,uid:id,name:v.name||'Guest',host:id===S.hostUid,dj:!!v.dj,j:v.joinedAt||0})).sort((a,b)=>a.j-b.j);
+    people();applyPerms();
+    if(S.host&&S.settings.max&&S.people.length>S.settings.max)
+      S.people.filter(p=>!p.host).slice(S.settings.max-1).forEach(p=>remove(ref(db,P('members/'+p.uid))));
+    if(!S.inRoom&&S.joined){clearTimeout(S.gone);S.gone=setTimeout(()=>{if(S.room&&!S.inRoom)S.host?announce():exit('You were removed from the room.')},4000)}
+  });
+  on('queue',x=>{
+    const v=x.val()||{},prev=S.queue.length,first=!S.qSeen;S.qSeen=true;
+    S.queue=Object.keys(v).sort().map(k=>({k,...v[k]}));render();applyState();
+    if(!first&&S.host&&S.stateLoaded&&S.queue.length>prev&&!(S.state&&S.state.cur))Sync.send({type:'load',i:S.queue.length-1});
+  });
+  on('state',x=>{S.state=x.val();S.stateLoaded=true;applyState()});
+  on('requests',x=>renderReq(x.val()||{}));
+  on('kicked/'+uid,x=>{if(x.exists())exit(x.val()==='denied'?'The host declined your request.':'You were removed from the room.')});
+}
+function renderReq(r){
+  const ids=Object.keys(r);$('#reqBox').hidden=!S.host||!ids.length;
+  $('#reqList').innerHTML=ids.map(id=>`<li><span class="nm">${esc(r[id].name)}</span><span class="pc"><button class="btn primary sm" data-ok="${id}">Allow</button><button data-no="${id}" aria-label="Decline">\u00d7</button></span></li>`).join('');
+}
+function enterRoom(c,isHost){
+  S.room=c;S.host=isHost;S.joined=true;S.qSeen=false;S.stateLoaded=false;
+  $('#codeTxt').textContent=c;$('#homeMsg').textContent='';show('room');initPlayer();listen();announce();
+}
+function exit(msg){
+  S.unsubs.forEach(u=>u());S.unsubs=[];clearTimeout(timer);clearTimeout(S.gone);
+  S.room='';S.joined=false;S.host=false;S.queue=[];S.curKey=null;S.state=null;S.sig='';S.people=[];
+  if(ready)player.stopVideo();render();show('home');if(msg)toast(msg);
+}
+async function leave(){
+  const c=S.room,h=S.host;S.unsubs.forEach(u=>u());S.unsubs=[];
+  try{if(h)await set(ref(db,'rooms/'+c),null);else{const m=ref(db,'rooms/'+c+'/members/'+uid);onDisconnect(m).cancel();await set(m,null)}}catch(_){}
+  exit();
+}
+async function create(){
+  for(let i=0;i<6;i++){
+    const c=code();
+    try{
+      await set(ref(db,'rooms/'+c),{host:uid,createdAt:serverTimestamp(),
+        settings:{max:10,control:'host',approve:false,locked:false,add:true},
+        members:{[uid]:{name:S.name,joinedAt:serverTimestamp(),dj:true}},
+        state:{playing:false,pos:0,at:0}});
+      return enterRoom(c,true);
+    }catch(_){}
+  }
+  throw 'Couldn\u2019t create a room. Try again.';
+}
+async function join(c){
+  const r=await get(ref(db,'rooms/'+c));
+  if(!r.exists())throw 'No room with that code.';
+  const v=r.val(),st=v.settings||{},isHost=v.host===uid;
+  if(v.kicked&&v.kicked[uid])throw 'You can\u2019t join this room.';
+  if(!isHost){
+    if(st.locked)throw 'This room is locked.';
+    if(Object.keys(v.members||{}).length>=st.max)throw 'This room is full.';
+    if(st.approve&&!(v.members&&v.members[uid])){
+      await set(ref(db,'rooms/'+c+'/requests/'+uid),{name:S.name});
+      $('#homeMsg').textContent='Waiting for the host to let you in\u2026';
+      try{
+        await new Promise((res,rej)=>{
+          const stop=()=>{u1();u2();clearTimeout(t)};
+          const u1=onValue(ref(db,'rooms/'+c+'/members/'+uid),x=>{if(x.exists()){stop();res()}});
+          const u2=onValue(ref(db,'rooms/'+c+'/kicked/'+uid),x=>{if(x.exists()){stop();rej('The host declined your request.')}});
+          const t=setTimeout(()=>{stop();rej('No answer from the host.')},120000);
+        });
+      }catch(e){remove(ref(db,'rooms/'+c+'/requests/'+uid)).catch(()=>{});throw e}
+    }
+  }
+  enterRoom(c,isHost);
+}
+const go=async f=>{
+  S.name=$('#name').value.trim()||'Guest';$('#homeMsg').textContent='';
+  try{await authReady;await f()}
+  catch(e){$('#homeMsg').textContent=typeof e==='string'?e:'Something went wrong ('+(e&&e.code||'unknown')+'). Check Firebase sign-in and rules.'}
+};
 
 /* ---- Events ---- */
 const code=()=>{const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';return Array.from({length:6},()=>a[Math.floor(Math.random()*a.length)]).join('')};
-function enter(c,host){
-  S.name=$('#name').value.trim()||'Guest';S.room=c;S.host=host;
-  S.settings={max:10,control:host?'host':'everyone',approve:false,locked:false,add:true};
-  S.people=host?[{id:'me',name:S.name,host:true,dj:true},{id:'a',name:'Ayan',sample:true},{id:'b',name:'Mitu',sample:true}]
-               :[{id:'h',name:'Room host',host:true,sample:true,dj:true},{id:'me',name:S.name}];
-  $('#codeTxt').textContent=c;show('room');initPlayer();people();render();applyPerms();
-}
-$('#create').onclick=()=>enter(code(),true);
-$('#join').onclick=()=>{const c=$('#code').value.trim().toUpperCase();
-  if(c.length!==6)return toast('Room codes have 6 characters.');
-  enter(c,false);toast('Joined in local mode. Live sync starts once the backend is connected.')};
+$('#create').onclick=()=>go(create);
+$('#join').onclick=()=>{const c=$('#code').value.trim().toUpperCase();if(c.length!==6)return toast('Room codes have 6 characters.');go(()=>join(c))};
 $('#code').addEventListener('keydown',e=>{if(e.key==='Enter')$('#join').click()});
 $('#code').addEventListener('input',e=>e.target.value=e.target.value.toUpperCase());
 $('#copy').onclick=()=>navigator.clipboard?.writeText(S.room).then(()=>toast('Room code copied'),()=>toast('Copy failed. Code: '+S.room));
-$('#leave').onclick=()=>{if(ready)player.pauseVideo();show('home')};
+$('#leave').onclick=()=>{if(S.host&&!confirm('Leaving closes the room for everyone. Continue?'))return;leave()};
 $('#logo').onclick=e=>{e.preventDefault();if(!$('#room').hidden)$('#leave').click()};
 
 $('#pp').onclick=()=>{if(!ready||S.i<0)return;Sync.send({type:player.getPlayerState()===1?'pause':'play'})};
@@ -377,13 +521,15 @@ $('#vol').addEventListener('input',e=>{fill(e.target);if(ready)player.setVolume(
 fill($('#vol'));fill($('#seek'));
 
 const vid=u=>{u=u.trim();const m=u.match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/|live\/)([\w-]{11})/);return m?m[1]:/^[\w-]{11}$/.test(u)?u:null};
-function addSong(s,title){
+async function addSong(s,fetchTitle){
   if(!S.host&&!S.settings.add){toast('Only the host can add songs.');return false}
-  const item={id:s.id,title:s.title,author:s.author};S.queue.push(item);render();if(S.i<0)load(0);
-  if(title)fetch('https://www.youtube.com/oembed?format=json&url='+encodeURIComponent('https://www.youtube.com/watch?v='+s.id))
-    .then(r=>r.json()).then(d=>{item.title=d.title;item.author=d.author_name;render()})
-    .catch(()=>{if(item.title.startsWith('Loading')){item.title='YouTube video';render()}});
-  return true;
+  let{title,author}=s;
+  if(fetchTitle){
+    try{const d=await(await fetch('https://www.youtube.com/oembed?format=json&url='+encodeURIComponent('https://www.youtube.com/watch?v='+s.id))).json();title=d.title;author=d.author_name}
+    catch(_){title='YouTube video';author=''}
+  }
+  try{await push(ref(db,P('queue')),{id:s.id,title:String(title||'YouTube video').slice(0,150),author:String(author||'').slice(0,80)});toast('Added to queue');return true}
+  catch(_){toast('Couldn\u2019t add that song.');return false}
 }
 const DEMO=[{id:'dQw4w9WgXcQ',title:'Never Gonna Give You Up',author:'Rick Astley'},{id:'fJ9rUzIMcZQ',title:'Bohemian Rhapsody',author:'Queen'},{id:'JGwWNGJdvx8',title:'Shape of You',author:'Ed Sheeran'},{id:'kJQP7kiw5Fk',title:'Despacito',author:'Luis Fonsi'},{id:'9bZkp7q19f0',title:'Gangnam Style',author:'PSY'}];
 let RES=[],rt,rq=0;
@@ -407,18 +553,18 @@ $('#link').addEventListener('input',e=>{
   if(v.length>1)rt=setTimeout(()=>runSearch(v),450);
 });
 $('#link').addEventListener('keydown',e=>{if(e.key==='Escape')$('#closeRes').click()});
-$('#addF').onsubmit=e=>{
+$('#addF').onsubmit=async e=>{
   e.preventDefault();const v=$('#link').value.trim();if(!v)return;const id=vid(v);
-  if(id){if(addSong({id,title:'Loading title\u2026',author:''},true)){$('#link').value='';$('#addBtn').textContent='Search'}}
+  if(id){$('#link').value='';$('#addBtn').textContent='Search';await addSong({id,title:'',author:''},true)}
   else{clearTimeout(rt);runSearch(v)}
 };
 $('#resList').addEventListener('click',e=>{
   const b=e.target.closest('[data-id]');if(!b||b.classList.contains('done'))return;
-  const r=RES.find(x=>x.id===b.dataset.id);if(r&&addSong(r)){b.classList.add('done');b.textContent='\u2713'}
+  const r=RES.find(x=>x.id===b.dataset.id);if(r)addSong(r).then(ok=>{if(ok){b.classList.add('done');b.textContent='\u2713'}})
 });
 $('#closeRes').onclick=()=>{$('#results').hidden=true;rq++};
 $('#queue').addEventListener('click',e=>{
-  const r=e.target.closest('[data-rm]');if(r){if(guard())remove(+r.dataset.rm);return}
+  const r=e.target.closest('[data-rm]');if(r){removeSong(+r.dataset.rm);return}
   const li=e.target.closest('li[data-k]');if(li)Sync.send({type:'load',i:+li.dataset.k});
 });
 
@@ -432,14 +578,24 @@ function settingsUI(){
 }
 $('#gear').onclick=()=>{settingsUI();dlg.showModal()};
 dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
-$('#maxM').onclick=()=>{S.settings.max=Math.max(2,S.people.length,S.settings.max-1);settingsUI();people()};
-$('#maxP').onclick=()=>{S.settings.max=Math.min(50,S.settings.max+1);settingsUI();people()};
-$('#ctlSeg').onclick=e=>{const b=e.target.closest('[data-v]');if(!b)return;S.settings.control=b.dataset.v;settingsUI();people();applyPerms()};
-[['addSw','add'],['apprSw','approve'],['lockSw','locked']].forEach(([id,k])=>$('#'+id).onclick=()=>{S.settings[k]=!S.settings[k];settingsUI();applyPerms()});
+const setS=o=>update(ref(db,P('settings')),o).catch(()=>toast('Couldn\u2019t save that setting.'));
+$('#maxM').onclick=()=>setS({max:Math.max(2,S.people.length,(S.settings.max||10)-1)});
+$('#maxP').onclick=()=>setS({max:Math.min(50,(S.settings.max||10)+1)});
+$('#ctlSeg').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setS({control:b.dataset.v})};
+[['addSw','add'],['apprSw','approve'],['lockSw','locked']].forEach(([id,k])=>$('#'+id).onclick=()=>setS({[k]:!S.settings[k]}));
 $('#ppl').onclick=e=>{
   const d=e.target.closest('[data-dj]'),k=e.target.closest('[data-kick]');
-  if(d){const p=S.people.find(x=>x.id===d.dataset.dj);p.dj=!p.dj;people()}
-  if(k){const p=S.people.find(x=>x.id===k.dataset.kick);S.people=S.people.filter(x=>x!==p);toast(p.name+' was removed.');people()}
+  if(d){const p=S.people.find(x=>x.uid===d.dataset.dj);if(p)update(ref(db,P('members/'+p.uid)),{dj:!p.dj}).catch(()=>toast('Not allowed.'))}
+  if(k){const u=k.dataset.kick;set(ref(db,P('kicked/'+u)),'kicked').then(()=>remove(ref(db,P('members/'+u)))).catch(()=>toast('Not allowed.'))}
+};
+$('#reqList').onclick=async e=>{
+  const a=e.target.closest('[data-ok]'),n=e.target.closest('[data-no]');
+  try{
+    if(a){const id=a.dataset.ok,rs=await get(ref(db,P('requests/'+id)));
+      await set(ref(db,P('members/'+id)),{name:(rs.val()||{}).name||'Guest',joinedAt:serverTimestamp(),dj:false});
+      remove(ref(db,P('requests/'+id)))}
+    if(n){const id=n.dataset.no;await set(ref(db,P('kicked/'+id)),'denied');remove(ref(db,P('requests/'+id)))}
+  }catch(_){toast('Not allowed.')}
 };
 </script>
 </body>
