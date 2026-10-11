@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#14102b">
 <meta name="description" content="UNISONE. The Sound of Togetherness. Play the same YouTube song on every phone, at the same moment.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="UNISONE">
+<meta property="og:title" content="UNISONE · The Sound of Togetherness">
+<meta property="og:description" content="Play the same YouTube song on every phone, at the same moment. Tap to join the room.">
+<meta property="og:image" content="https://unisone.vercel.app/og.png">
+<meta property="og:url" content="https://unisone.vercel.app/">
+<meta name="twitter:card" content="summary_large_image">
 <title>UNISONE · The Sound of Togetherness</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2314102b'/%3E%3Cpath d='M4 16c4-9 8-9 12 0s8 9 12 0' fill='none' stroke='%23ff6f59' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -115,7 +122,7 @@ ol,ul{list-style:none}
 #ppl li{display:flex;align-items:center;gap:12px;padding:8px 0}
 #ppl small{color:var(--mute)}
 #ppl em{font-style:normal;font-size:12px;font-weight:600;color:var(--amber);background:rgba(255,193,94,.13);padding:3px 10px;border-radius:99px}#ppl em.dj{color:var(--teal);background:rgba(61,219,196,.13)}
-.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:600 16px Fraunces,serif;color:#1a1535;flex:none;outline:2px solid rgba(244,239,230,.14);outline-offset:2px}.av.host{outline-color:var(--amber)}
+
 .toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;pointer-events:none;transition:.25s;max-width:calc(100vw - 32px);text-align:center;z-index:9}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 #seek{height:6px;background:linear-gradient(90deg,transparent var(--p,0%),#38335a var(--p,0%)),linear-gradient(90deg,#ff6f59,#ffc15e,#3ddbc4,#a78bfa,#ff6f59) 0 0/300px 100% repeat-x}
@@ -187,6 +194,29 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
 .rpanel .note{padding:10px 12px}.note.warn{color:var(--amber)}
 .sk{height:63px;margin:4px;border-radius:12px;background:linear-gradient(90deg,rgba(244,239,230,.04),rgba(244,239,230,.1),rgba(244,239,230,.04)) 0 0/200% 100%;animation:shimmer 1.2s linear infinite}
 @keyframes shimmer{to{background-position:-200% 0}}
+.crow{display:flex;align-items:center;gap:12px}
+.shr{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--mute);transition:color .2s,background .2s}
+.shr:hover{color:var(--ink);background:rgba(244,239,230,.08)}.shr svg{width:18px;height:18px}
+.invite{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:22px;padding:12px 16px;max-width:440px;border:1px solid rgba(167,139,250,.4);border-radius:14px;background:rgba(167,139,250,.1);color:var(--mute);font-size:14px}
+.invite b{font:500 20px Fraunces,serif;letter-spacing:.14em;color:var(--ink)}
+.actions.inv #create,.actions.inv .div{display:none}
+.foot{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 10px;padding:8px 20px calc(30px + env(safe-area-inset-bottom));font-size:12.5px;color:var(--mute);text-align:center}
+.foot button{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:rgba(244,239,230,.3);text-underline-offset:3px}
+.av2{position:relative;width:42px;height:42px;flex:none;display:grid;place-items:center}
+.av2 .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--a),var(--b),var(--a));-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 2px))}
+.av2 .core{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:600 15px Fraunces,serif;color:#1a1535;background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.45),rgba(255,255,255,0) 55%),linear-gradient(135deg,var(--a),var(--b));box-shadow:inset 0 -6px 10px rgba(0,0,0,.14),0 6px 14px -6px var(--a)}
+.av2.host{width:50px;height:50px;filter:drop-shadow(0 0 8px rgba(255,193,94,.45))}
+.av2.host .ring{background:conic-gradient(#ffe08a,#ff9d3d,#ffe08a,#fff3c4,#ffe08a);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px))}
+.av2.host .core{width:40px;height:40px;font-size:18px}
+.is-playing .av2.host .ring{animation:spin 5s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.crown{position:absolute;top:-8px;right:-5px;width:20px;height:20px;transform:rotate(16deg)}
+.dev{display:flex;align-items:center;gap:14px;margin:6px 0 12px}
+.dev b{font:500 20px Fraunces,serif;display:block}.dev small{color:var(--mute)}
+.lk{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 4px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none}
+.lk b{font-weight:500;display:block}.lk small{color:var(--mute);font-size:12.5px}
+.lk svg{width:16px;height:16px;color:var(--mute);flex:none}
+dialog{max-height:calc(100dvh - 20px)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -203,6 +233,7 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
   <div class="hero">
     <h1>The Sound of Togetherness</h1>
     <p class="lede">Play the same YouTube song on every phone, at the same moment. Start a room, share the code, press play.</p>
+    <div class="invite" id="invite" hidden><span>You’re invited to room</span><b id="invCode"></b></div>
     <div class="actions">
       <label class="field">Your name<input id="name" maxlength="20" placeholder="Your name" autocomplete="off"></label>
       <button class="btn primary" id="create">Start a room</button>
@@ -220,8 +251,9 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
 <main id="room" class="view" hidden>
   <div class="bar">
     <div class="rc"><small>Room code</small>
-      <button class="code" id="copy" aria-label="Copy room code"><span id="codeTxt"></span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg></button></div>
+      <div class="crow"><button class="code" id="copy" aria-label="Copy room code"><span id="codeTxt"></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg></button>
+        <button class="shr" id="share" aria-label="Share this room"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button></div></div>
     <canvas id="syncWave" aria-hidden="true"></canvas>
     <div class="pill" id="pill"><i></i><span id="pillTxt">Connecting…</span></div>
     <button class="gear" id="gear" aria-label="Room settings" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
@@ -246,7 +278,7 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
         <form class="sbar" id="addF" role="search">
           <svg class="mag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           <input id="link" type="text" inputmode="search" enterkeyhint="search" placeholder="Search songs or paste a YouTube link" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Search songs or paste a YouTube link">
-          <button class="clr" id="clr" type="button" aria-label="Clear" hidden>\u00d7</button>
+          <button class="clr" id="clr" type="button" aria-label="Clear" hidden>&times;</button>
         </form>
         <div class="rpanel" id="results" hidden><p class="note" id="resNote"></p><ul id="resList"></ul></div>
       </div>
@@ -256,6 +288,20 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
     </aside>
   </div>
 </main>
+<footer class="foot"><span>Made by <button id="aboutBtn">Pallab Ghosh</button></span><span>·</span><span>Plays through YouTube’s official player</span></footer>
+<dialog id="aboutDlg" aria-labelledby="abT"><div class="sheet">
+  <header><h3 id="abT">About UNISONE</h3><form method="dialog"><button class="x" aria-label="Close">&times;</button></form></header>
+  <div class="dev"><span class="av2 host" style="--a:#ffe08a;--b:#ff9d3d"><span class="ring"></span><span class="core">P</span></span><div><b>Pallab Ghosh</b><small>Developer of UNISONE</small></div></div>
+  <p class="note">UNISONE lets friends listen to the same song at the same moment, wherever they are. The Sound of Togetherness.</p>
+  <a class="lk" href="mailto:zenix.pallab@gmail.com"><span><b>Email</b><small>zenix.pallab@gmail.com</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+  <a class="lk" href="https://zenix-pallab.netlify.app" target="_blank" rel="noopener"><span><b>Portfolio</b><small>zenix-pallab.netlify.app</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+  <a class="lk" href="https://github.com/zenix-pallab" target="_blank" rel="noopener"><span><b>GitHub</b><small>github.com/zenix-pallab</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+  <a class="lk" href="https://www.instagram.com/zenix_pallab" target="_blank" rel="noopener"><span><b>Instagram</b><small>instagram.com/zenix_pallab</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+  <a class="lk" href="https://x.com/zenix_pallab" target="_blank" rel="noopener"><span><b>X (Twitter)</b><small>x.com/zenix_pallab</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+  <a class="lk" href="https://www.facebook.com/share/18Mc2tV4Ag/" target="_blank" rel="noopener"><span><b>Facebook</b><small>facebook.com</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+  <a class="lk" href="https://linktr.ee/zenix_pallab" target="_blank" rel="noopener"><span><b>Linktree</b><small>linktr.ee/zenix_pallab</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+  <p class="note">Found a bug or have an idea? Email me or message me on Instagram.<br>UNISONE v1.0 · Songs belong to their creators.</p>
+</div></dialog>
 <dialog id="settings" aria-labelledby="stT"><form method="dialog" class="sheet">
   <header><h3 id="stT">Room settings</h3><button class="x" value="close" aria-label="Close">×</button></header>
   <div class="opt"><div><b>Max listeners</b><small>Including you</small></div><div class="step"><button type="button" id="maxM" aria-label="Fewer">−</button><output id="maxV">10</output><button type="button" id="maxP" aria-label="More">+</button></div></div>
@@ -317,19 +363,19 @@ function waves(cv,spread,amp){
   size();addEventListener('resize',size);
   let t=0;
   (function draw(){
-    const w=cv.clientWidth,h=cv.clientHeight,s=spread()+(reduce?0:.1+.08*Math.sin(t*.4));
-    c.clearRect(0,0,w,h);c.globalCompositeOperation='lighter';c.lineCap='round';c.lineJoin='round';
+    const w=cv.clientWidth,h=cv.clientHeight,s=spread()+(reduce?0:.14+.1*Math.sin(t*.4));
+    c.clearRect(0,0,w,h);c.lineCap='round';c.lineJoin='round';
     cols.forEach((col,i)=>{
       c.beginPath();
       for(let x=0;x<=w+4;x+=4){
         const k=x/w,env=.8+.2*Math.sin(k*3-t*.6),
-        y=h/2+(i-1.5)*h*.11*s+Math.sin(k*(7+s*2)-t+ph[i]*s)*h*amp*env;
+        y=h/2+(i-1.5)*h*.07*(.5+s)+Math.sin(k*(7+s*2)-t+ph[i]*s)*h*amp*env;
         x?c.lineTo(x,y):c.moveTo(x,y);
       }
-      c.shadowColor=col;c.shadowBlur=12;c.strokeStyle=col;c.lineWidth=2.4;c.globalAlpha=.9;c.stroke();
+      c.shadowColor=col;c.shadowBlur=10;c.strokeStyle=col;c.lineWidth=2.2;c.globalAlpha=.9;c.stroke();
       c.shadowBlur=0;c.lineTo(w+4,h);c.lineTo(0,h);c.closePath();
-      const g=c.createLinearGradient(0,h*.2,0,h);g.addColorStop(0,col);g.addColorStop(1,'#00000000');
-      c.globalAlpha=.07;c.fillStyle=g;c.fill();
+      const g=c.createLinearGradient(0,h*.25,0,h);g.addColorStop(0,col);g.addColorStop(1,'#00000000');
+      c.globalAlpha=.045;c.fillStyle=g;c.fill();
     });
     c.globalAlpha=1;t+=reduce?0:.03;requestAnimationFrame(draw);
   })();
@@ -448,14 +494,16 @@ function render(){
 }
 const GR=[['#ff6f59','#ffc15e'],['#3ddbc4','#a78bfa'],['#a78bfa','#ff6f59'],['#ffc15e','#3ddbc4'],['#ff6f59','#a78bfa']];
 const hsh=x=>[...String(x)].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
+const CROWN='<svg class="crown" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8l4 4 5-7 5 7 4-4-2 10H5L3 8z" fill="#ffc15e" stroke="#14102b" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+const avatar=(p,a,b)=>`<span class="av2${p.host?' host':''}" style="--a:${a};--b:${b}"><span class="ring"></span><span class="core">${esc((p.name[0]||'G').toUpperCase())}</span>${p.host?CROWN:''}</span>`;
 function people(){
   const st=S.settings;
   $('#lc').textContent=S.people.length+' / '+(st.max||10);
   $('#ppl').innerHTML=S.people.map(p=>{
-    const[a,b]=GR[hsh(p.uid)%GR.length];
+    const[a,b]=p.host?['#ffe08a','#ff9d3d']:GR[hsh(p.uid)%GR.length];
     const tag=p.host?'<em>Host</em>':(st.control==='selected'&&p.dj?'<em class="dj">Can control</em>':'');
     const ctl=S.host&&!p.host?`<span class="pc">${st.control==='selected'?`<button class="sw${p.dj?' on':''}" data-dj="${p.uid}" role="switch" aria-checked="${!!p.dj}" aria-label="Can control playback"></button>`:''}<button data-kick="${p.uid}" aria-label="Remove ${esc(p.name)}">\u00d7</button></span>`:'';
-    return `<li><span class="av${p.host?' host':''}" style="background:linear-gradient(135deg,${a},${b});box-shadow:0 6px 16px -6px ${a}">${esc((p.name[0]||'G').toUpperCase())}</span><span class="nm">${esc(p.name)}${p.id==='me'?' <small>(you)</small>':''}</span>${tag}${ctl}</li>`}).join('');
+    return `<li>${avatar(p,a,b)}<span class="nm">${esc(p.name)}${p.id==='me'?' <small>(you)</small>':''}</span>${tag}${ctl}</li>`}).join('');
 }
 function applyPerms(){
   const ok=can();['prev','next','seek'].forEach(id=>$('#'+id).disabled=!ok);
@@ -506,12 +554,12 @@ function renderReq(r){
 }
 function enterRoom(c,isHost){
   S.room=c;S.host=isHost;S.joined=true;S.qSeen=false;S.stateLoaded=false;
-  $('#codeTxt').textContent=c;$('#homeMsg').textContent='';show('room');initPlayer();listen();announce();keepAwake(true);
+  $('#codeTxt').textContent=c;$('#homeMsg').textContent='';show('room');history.replaceState(null,'',location.pathname);initPlayer();listen();announce();keepAwake(true);
 }
 function exit(msg){
   S.unsubs.forEach(u=>u());S.unsubs=[];clearTimeout(timer);clearTimeout(S.gone);
   S.room='';S.joined=false;S.host=false;S.queue=[];S.curKey=null;S.state=null;S.sig='';S.people=[];
-  if(ready)player.stopVideo();render();show('home');keepAwake(false);if(msg)toast(msg);
+  if(ready)player.stopVideo();render();show('home');history.replaceState(null,'',location.pathname);keepAwake(false);if(msg)toast(msg);
 }
 async function leave(close){
   const c=S.room;S.unsubs.forEach(u=>u());S.unsubs=[];
@@ -573,7 +621,7 @@ async function join(c){
   enterRoom(c,isHost);
 }
 const go=async f=>{
-  S.name=$('#name').value.trim()||'Guest';$('#homeMsg').textContent='';
+  S.name=$('#name').value.trim()||'Guest';$('#homeMsg').textContent='';try{if($('#name').value.trim())localStorage.setItem('unisone.name',S.name)}catch(_){}
   try{await authReady;await f()}
   catch(e){$('#homeMsg').textContent=typeof e==='string'?e:'Something went wrong ('+(e&&e.code||'unknown')+'). Check Firebase sign-in and rules.'}
 };
@@ -714,6 +762,21 @@ $('#reqList').onclick=async e=>{
     if(n){const id=n.dataset.no;await set(ref(db,P('kicked/'+id)),'denied');remove(ref(db,P('requests/'+id)))}
   }catch(_){toast('Not allowed.')}
 };
+/* ---- Share, invite links, About ---- */
+const roomLink=()=>location.origin+location.pathname.replace(/index\.html$/,'')+'?room='+S.room;
+$('#share').onclick=async()=>{
+  const url=roomLink(),text='\ud83c\udfa7 Let\u2019s listen together on UNISONE \u2014 the same song, at the same moment, on every phone.\nJoin my room (code '+S.room+'):';
+  if(navigator.share){try{await navigator.share({title:'Join my UNISONE room',text,url});return}catch(e){if(e&&e.name==='AbortError')return}}
+  try{await navigator.clipboard.writeText(text+'\n'+url);toast('Invite copied. Paste it anywhere.')}catch(_){toast(url)}
+};
+try{const n=localStorage.getItem('unisone.name');if(n)$('#name').value=n}catch(_){}
+const inv=(new URLSearchParams(location.search).get('room')||'').toUpperCase();
+if(/^[A-Z0-9]{6}$/.test(inv)){
+  $('#code').value=inv;$('#invCode').textContent=inv;$('#invite').hidden=false;document.querySelector('.actions').classList.add('inv');
+  if($('#name').value.trim())go(()=>join(inv)); // returning visitors join straight away
+}
+$('#aboutBtn').onclick=()=>$('#aboutDlg').showModal();
+$('#aboutDlg').addEventListener('click',e=>{if(e.target===$('#aboutDlg'))$('#aboutDlg').close()});
 </script>
 </body>
 </html>
