@@ -54,9 +54,9 @@ h1{font:700 clamp(1.9rem,min(8.6vw,6.4vh),4.6rem)/1.1 'Unbounded',sans-serif;let
 .btn{padding:13px 22px;border-radius:12px;font-weight:600;font-size:15px;white-space:nowrap;transition:transform .15s,background .15s}
 .btn:active{transform:scale(.97)}
 .btn.primary{background:var(--ink);color:var(--bg)}
-.btn.primary:hover{background:#fff}
+@media(hover:hover){.btn.primary:hover{background:#fff}}
 .btn.ghost{border:1px solid var(--line);background:rgba(244,239,230,.05)}
-.btn.ghost:hover{background:rgba(244,239,230,.1)}
+@media(hover:hover){.btn.ghost:hover{background:rgba(244,239,230,.1)}}
 .btn.sm{padding:11px 16px}
 .div{display:flex;align-items:center;gap:12px;color:var(--mute);font-size:13px}
 .div:before,.div:after{content:'';flex:1;height:1px;background:var(--line)}
@@ -89,11 +89,12 @@ input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:4px;bord
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--ink);border:0;box-shadow:0 0 0 6px rgba(244,239,230,.08)}
 input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ink);border:0}
 .ctl{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:20px;position:relative}
-.ctl button{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:var(--ink);transition:background .15s,transform .15s}
-.ctl button:hover{background:rgba(244,239,230,.1)}
-.ctl button:active{transform:scale(.92)}
+.ctl button{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:var(--ink);transition:background .9s ease-out,transform .3s cubic-bezier(.34,1.56,.64,1)}
+@media(hover:hover){.ctl button:hover{background:rgba(244,239,230,.1)}}
+.ctl button:active{transform:scale(.9)}
+.ctl button:not(.big):active{background:rgba(244,239,230,.16);transition:background .06s,transform .3s cubic-bezier(.34,1.56,.64,1)}
 .ctl .big{width:68px;height:68px;background:var(--ink);color:var(--bg)}
-.ctl .big:hover{background:#fff}
+@media(hover:hover){.ctl .big:hover{background:#fff}}
 .ctl svg{width:22px;height:22px}
 .ctl .big{position:relative;transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .15s}
 .ctl .big:active{transform:scale(.88)}
@@ -116,16 +117,16 @@ h3{font:500 18px Fraunces,serif;display:flex;align-items:baseline;gap:8px;margin
 h3 span{font:400 13px 'DM Sans';color:var(--mute)}
 ol,ul{list-style:none}
 #queue li{display:flex;align-items:center;gap:12px;padding:10px 8px;border-bottom:1px solid var(--line);cursor:pointer;border-radius:8px;touch-action:pan-y;transition:background .15s}
-#queue li:hover{background:rgba(244,239,230,.05)}
+@media(hover:hover){#queue li:hover{background:rgba(244,239,230,.05)}}
 #queue li.cur{background:rgba(167,139,250,.14);box-shadow:inset 3px 0 var(--lilac)}
 #queue img{width:64px;height:36px;object-fit:cover;border-radius:5px;background:var(--bg2);flex:none}
 #queue div{flex:1;min-width:0}
 #queue b{display:block;font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #queue small{color:var(--mute);font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #queue button{width:30px;height:30px;color:var(--mute);font-size:20px;border-radius:50%}
-#queue button:hover{background:rgba(244,239,230,.1);color:var(--ink)}
+@media(hover:hover){#queue button:hover{background:rgba(244,239,230,.1);color:var(--ink)}}
 #queue li.none{cursor:default;color:var(--mute);border:0;padding:14px 0}
-#queue li.none:hover{background:none}
+@media(hover:hover){#queue li.none:hover{background:none}}
 #ppl li{display:flex;align-items:center;gap:12px;padding:8px 0}
 #ppl small{color:var(--mute)}
 #ppl em{font-style:normal;font-size:12px;font-weight:600;color:var(--amber);background:rgba(255,193,94,.13);padding:3px 10px;border-radius:99px}#ppl em.dj{color:var(--teal);background:rgba(61,219,196,.13)}
@@ -136,7 +137,7 @@ ol,ul{list-style:none}
 .is-playing #seek{animation:flow 2.4s linear infinite}
 @keyframes flow{to{background-position:0 0,300px 0}}
 #seek::-webkit-slider-thumb{transition:transform .15s,box-shadow .15s}
-#seek:hover::-webkit-slider-thumb,#seek:active::-webkit-slider-thumb{transform:scale(1.3);box-shadow:0 0 0 8px rgba(244,239,230,.14)}
+#seek:active::-webkit-slider-thumb{transform:scale(1.3);box-shadow:0 0 0 8px rgba(244,239,230,.14)}@media(hover:hover){#seek:hover::-webkit-slider-thumb{transform:scale(1.3);box-shadow:0 0 0 8px rgba(244,239,230,.14)}}
 button:disabled,input:disabled{opacity:.4;cursor:not-allowed}
 .eq{display:inline-flex;align-items:flex-end;gap:2px;height:14px;width:16px;flex:none}
 .eq i{flex:1;height:30%;background:var(--lilac);border-radius:1px;animation:eq .9s ease-in-out infinite alternate;animation-play-state:paused}
@@ -148,16 +149,16 @@ button:disabled,input:disabled{opacity:.4;cursor:not-allowed}
 .x{font-size:26px;width:36px;height:36px;border-radius:50%;color:var(--mute)}
 .note{font-size:12.5px;color:var(--mute);padding:6px 0}
 .res{display:flex;align-items:center;gap:12px;padding:8px;border-radius:12px;cursor:pointer;transition:background .15s}
-.res:hover,.res:active{background:rgba(244,239,230,.07)}
+.res:active{background:rgba(244,239,230,.07)}@media(hover:hover){.res:hover{background:rgba(244,239,230,.07)}}
 .res img{width:84px;height:47px;object-fit:cover;border-radius:8px;flex:none;background:var(--bg)}
 .res div{flex:1;min-width:0}
 .res b{font-weight:500;font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .res small{display:block;color:var(--mute);font-size:12.5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .plus{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:20px;flex:none;transition:.2s}
-.plus:hover{background:rgba(244,239,230,.1)}
+@media(hover:hover){.plus:hover{background:rgba(244,239,230,.1)}}
 .plus.done{background:var(--teal);border-color:var(--teal);color:var(--bg)}
 .gear{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;color:var(--mute)}
-.gear:hover{color:var(--ink)}.gear svg{width:18px;height:18px}
+@media(hover:hover){.gear:hover{color:var(--ink)}}.gear svg{width:18px;height:18px}
 .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pc{display:flex;align-items:center;gap:10px}
 .pc>button:not(.sw){width:28px;height:28px;border-radius:50%;color:var(--mute);font-size:18px}
@@ -203,7 +204,7 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
 @keyframes shimmer{to{background-position:-200% 0}}
 .crow{display:flex;align-items:center;gap:12px}
 .shr{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--mute);transition:color .2s,background .2s}
-.shr:hover{color:var(--ink);background:rgba(244,239,230,.08)}.shr svg{width:18px;height:18px}
+@media(hover:hover){.shr:hover{color:var(--ink);background:rgba(244,239,230,.08)}}.shr svg{width:18px;height:18px}
 .invite{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:22px;padding:12px 16px;max-width:440px;border:1px solid rgba(167,139,250,.4);border-radius:14px;background:rgba(167,139,250,.1);color:var(--mute);font-size:14px}
 .invite b{font:500 20px Fraunces,serif;letter-spacing:.14em;color:var(--ink)}
 .actions.inv #create,.actions.inv .div{display:none}
@@ -235,7 +236,7 @@ dialog{max-height:calc(100dvh - 20px)}
 .strig svg{width:18px;height:18px;flex:none}.strig span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #sheet{position:fixed;left:0;right:0;top:calc(56px + env(safe-area-inset-top));bottom:calc(36px + env(safe-area-inset-bottom));z-index:30;background:var(--bg);display:flex;flex-direction:column;opacity:0;transform:translateY(46px) scale(.985);visibility:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s ease,bottom .5s cubic-bezier(.2,.8,.2,1),visibility 0s .5s}
 .search-open #sheet{opacity:1;transform:none;visibility:visible;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease,bottom .5s cubic-bezier(.2,.8,.2,1),visibility 0s}
-.search-open.has-song #sheet{bottom:calc(118px + env(safe-area-inset-bottom))}
+.search-open.has-song .sbody{padding-bottom:104px}
 .shead{display:flex;align-items:center;gap:6px;padding:10px clamp(12px,4vw,24px) 8px}
 .shead .sbar{flex:1}
 .sback{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:var(--ink);flex:none}.sback svg{width:22px;height:22px}
@@ -243,10 +244,10 @@ dialog{max-height:calc(100dvh - 20px)}
 .sbody .rpanel{margin:0;border:0;background:none;padding:0;max-height:none;overflow:visible}
 .shint{color:var(--mute);text-align:center;padding:40px 20px;font-size:14px}
 .sbody:has(#results:not([hidden])) .shint{display:none}
-.mini{position:fixed;left:10px;right:10px;bottom:calc(44px + env(safe-area-inset-bottom));height:66px;z-index:34;display:flex;align-items:center;gap:12px;padding:0 12px 0 114px;border-radius:20px;background:linear-gradient(135deg,rgba(42,35,96,.95),rgba(24,19,56,.95));-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.1);box-shadow:0 14px 34px -8px rgba(0,0,0,.6);overflow:hidden;cursor:pointer;opacity:0;transform:translateY(26px) scale(.96);pointer-events:none;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.mini{position:fixed;left:10px;right:10px;bottom:calc(44px + env(safe-area-inset-bottom));height:66px;z-index:34;display:flex;align-items:center;gap:12px;padding:0 12px 0 114px;border-radius:20px;background:linear-gradient(135deg,#2b2562,#181338);border:1px solid rgba(255,255,255,.1);box-shadow:0 14px 34px -8px rgba(0,0,0,.6);overflow:hidden;cursor:pointer;opacity:0;transform:translateY(26px) scale(.96);pointer-events:none;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s}
 .search-open.has-song .mini{opacity:1;transform:none;pointer-events:auto;transition-delay:.06s}
-.mini:before{content:'';position:absolute;left:14px;right:14px;bottom:5px;height:3px;border-radius:3px;background:rgba(244,239,230,.12)}
-.mini:after{content:'';position:absolute;left:14px;bottom:5px;height:3px;width:calc((100% - 28px)*var(--mpf,0));border-radius:3px;background:linear-gradient(90deg,#ff6f59,#ffc15e,#3ddbc4,#a78bfa)}
+.mini:before{content:'';position:absolute;left:114px;right:14px;bottom:7px;height:3px;border-radius:3px;background:rgba(244,239,230,.14)}
+.mini:after{content:'';position:absolute;left:114px;bottom:7px;height:3px;width:calc((100% - 128px)*var(--mpf,0));border-radius:3px;background:linear-gradient(90deg,#ff6f59,#ffc15e,#3ddbc4,#a78bfa)}
 .mini div{flex:1;min-width:0;padding-bottom:4px}
 .mini b{display:block;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mini small{display:block;color:var(--mute);font-size:12.5px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -296,7 +297,11 @@ dialog .sheet{max-height:calc(100dvh - 20px);overflow-y:auto;overscroll-behavior
 .donebtn:active{transform:scale(.92)}
 .ctl{gap:clamp(8px,2.8vw,20px)}
 .sk10 svg{width:26px;height:26px;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
-#back10:active svg{transform:rotate(-35deg)}#fwd10:active svg{transform:rotate(35deg)}
+.sk10{position:relative}
+.sk10 svg{position:relative;z-index:1}
+.sk10:active svg{transform:scale(.9)}
+.rip{position:absolute;inset:3px;border-radius:50%;background:rgba(244,239,230,.22);opacity:0;pointer-events:none}
+.arc{transform-box:view-box;transform-origin:12px 13px}
 .res{animation:rise .42s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*40ms)}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 #queue li.fresh{animation:curIn .7s cubic-bezier(.2,.8,.2,1)}
@@ -308,6 +313,14 @@ img{pointer-events:none}
 dialog,dialog *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 dialog ::selection{background:transparent}
 dialog a{-webkit-user-drag:none}
+#queue li{position:relative;transition:background .7s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
+#queue li.cur{background:rgba(167,139,250,.14);box-shadow:none}
+#queue li:before{content:'';position:absolute;left:0;top:14%;bottom:14%;width:3px;border-radius:3px;background:linear-gradient(var(--lilac),var(--coral));transform:scaleY(0);transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+#queue li.cur:before{transform:scaleY(1)}
+#queue li .eq{opacity:0;transition:opacity .5s}
+#queue li.cur .eq{opacity:1}
+#queue li img{transition:transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .6s}
+#queue li.cur img{transform:scale(1.04);box-shadow:0 6px 16px -6px rgba(167,139,250,.6)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -359,9 +372,9 @@ dialog a{-webkit-user-drag:none}
       <div class="seek"><span id="tc">0:00</span><input type="range" id="seek" min="0" max="1000" value="0" aria-label="Seek"><span id="td">0:00</span></div>
       <div class="ctl">
         <button id="prev" aria-label="Previous song"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9.5 12z"/></svg></button>
-        <button id="back10" class="sk10" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V2L8 6l4 4V7a6 6 0 1 1-6 6"/><text x="12" y="16.2" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="DM Sans,sans-serif">10</text></svg></button>
+        <button id="back10" class="sk10" aria-label="Back 10 seconds"><i class="rip"></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="arc"><path d="M12 5V2L8 6l4 4V7a6 6 0 1 1-6 6"/></g><text x="12" y="16.2" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="DM Sans,sans-serif">10</text></svg></button>
         <button class="big" id="pp" aria-label="Play"><span class="ic"><i></i><i></i></span></button>
-        <button id="fwd10" class="sk10" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(24 0) scale(-1 1)"><path d="M12 5V2L8 6l4 4V7a6 6 0 1 1-6 6"/></g><text x="12" y="16.2" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="DM Sans,sans-serif">10</text></svg></button>
+        <button id="fwd10" class="sk10" aria-label="Forward 10 seconds"><i class="rip"></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(24 0) scale(-1 1)"><g class="arc"><path d="M12 5V2L8 6l4 4V7a6 6 0 1 1-6 6"/></g></g><text x="12" y="16.2" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="DM Sans,sans-serif">10</text></svg></button>
         <button id="next" aria-label="Next song"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg></button>
         <div class="vol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M17 8.5a5 5 0 0 1 0 7"/></svg><input type="range" id="vol" min="0" max="100" value="80" aria-label="Volume"></div>
       </div>
@@ -600,11 +613,30 @@ function render(){
       const v=$('#veil');v.classList.remove('swap');void v.offsetWidth;v.classList.add('swap');
     }
   }else if(!q)S.shown=null;
-  const fresh=Date.now()<(S.freshUntil||0);
   $('#qc').textContent=S.queue.length+(S.queue.length===1?' song':' songs');
-  $('#queue').innerHTML=S.queue.length?S.queue.map((x,k)=>
-    `<li class="${k===S.i?'cur'+(fresh?' fresh':''):''}" data-k="${k}">${g?GRIP:''}<img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" draggable="false"><div><b>${esc(x.title)}</b><small>${esc(x.author)}</small></div>${k===S.i?'<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>':''}${g?`<button data-rm="${k}" aria-label="Remove ${esc(x.title)}">\u00d7</button>`:''}</li>`).join('')
-    :'<li class="none">Your queue is empty. Search or paste a link above.</li>';
+  renderQueue(g);
+}
+function renderQueue(g){
+  const ul=$('#queue');
+  if(!S.queue.length){ul.innerHTML='<li class="none">Your queue is empty. Search or paste a link above.</li>';return}
+  const none=ul.querySelector('.none');if(none)none.remove();
+  const have=new Map([...ul.children].map(li=>[li.dataset.key,li])),keep=new Set();
+  S.queue.forEach((x,k)=>{
+    keep.add(x.k);
+    let li=have.get(x.k);
+    const isNew=!li;
+    if(isNew){li=document.createElement('li');li.dataset.key=x.k;li._sig=''}
+    const sig=[x.id,x.title,x.author,g].join('|');
+    if(li._sig!==sig){li._sig=sig;li.innerHTML=`${g?GRIP:''}<img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" draggable="false"><div><b>${esc(x.title)}</b><small>${esc(x.author)}</small></div><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>${g?`<button data-rm="${k}" aria-label="Remove ${esc(x.title)}">\u00d7</button>`:''}`}
+    const rm=li.querySelector('[data-rm]');if(rm)rm.dataset.rm=k;
+    li.dataset.k=k;
+    const cur=k===S.i;li.classList.toggle('cur',cur);
+    if(cur&&!li._cur&&!reduce&&!isNew)li.animate([{transform:'scale(1.025)'},{transform:'none'}],{duration:600,easing:'cubic-bezier(.2,.8,.2,1)'});
+    li._cur=cur;
+    if(ul.children[k]!==li)ul.insertBefore(li,ul.children[k]||null);
+    if(isNew&&!reduce)li.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],{duration:460,easing:'cubic-bezier(.2,.8,.2,1)'});
+  });
+  have.forEach((li,key)=>{if(!keep.has(key))li.remove()});
 }
 const GR=[['#ff6f59','#ffc15e'],['#3ddbc4','#a78bfa'],['#a78bfa','#ff6f59'],['#ffc15e','#3ddbc4'],['#ff6f59','#a78bfa']];
 const hsh=x=>[...String(x)].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
@@ -944,6 +976,11 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 /* ---- skip 10 seconds, and no saving pictures with a long press ---- */
 function skip(d){
   if(!ready||S.i<0||!can())return;
+  const b=$(d<0?'#back10':'#fwd10');
+  if(!reduce){
+    b.querySelector('.arc').animate([{transform:'rotate(0deg)'},{transform:'rotate(-360deg)'}],{duration:700,easing:'cubic-bezier(.2,.8,.2,1)'});
+    b.querySelector('.rip').animate([{opacity:.55,transform:'scale(.55)'},{opacity:0,transform:'scale(1.4)'}],{duration:650,easing:'ease-out'});
+  }
   const dur=player.getDuration()||0,t=Math.max(0,Math.min((player.getCurrentTime()||0)+d,Math.max(0,dur-1)));
   Sync.send({type:'seek',t});
 }
