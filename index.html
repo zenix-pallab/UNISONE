@@ -15,7 +15,7 @@
 <title>UNISONE · The Sound of Togetherness</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2314102b'/%3E%3Cpath d='M4 16c4-9 8-9 12 0s8 9 12 0' fill='none' stroke='%23ff6f59' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400&family=DM+Sans:wght@400;500;600;700&family=Unbounded:wght@500;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#14102b;--bg2:#1d1840;--ink:#f4efe6;--mute:#9d97b8;--line:rgba(244,239,230,.12);--coral:#ff6f59;--amber:#ffc15e;--teal:#3ddbc4;--lilac:#a78bfa}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -38,7 +38,9 @@ button{cursor:pointer;background:none;border:0;outline:none}
 /* Home */
 #home{display:flex;flex-direction:column;height:calc(100dvh - 92px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:430px;padding-bottom:0;overflow-y:auto;overscroll-behavior:contain}
 .hero{flex:none;padding:clamp(8px,2.5vh,36px) 0 0;max-width:720px}
-h1{font:400 clamp(2.4rem,min(10.5vw,7.6vh),5.8rem)/1.02 'DM Serif Display',serif;letter-spacing:-.01em}
+h1{font:700 clamp(1.9rem,min(8.6vw,6.4vh),4.6rem)/1.1 'Unbounded',sans-serif;letter-spacing:-.02em}
+.tg{background:linear-gradient(90deg,#ff6f59,#ffc15e,#3ddbc4,#a78bfa,#ff6f59);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:tgflow 6s linear infinite}
+@keyframes tgflow{to{background-position:-200% 0}}
 .lede{margin-top:clamp(10px,2vh,20px);color:var(--mute);font-size:clamp(16px,2.4vw,18px);max-width:470px}
 .actions{margin-top:clamp(14px,3vh,28px);display:grid;gap:10px;max-width:440px}
 @media(max-height:680px){.lede{display:none}}
@@ -226,13 +228,14 @@ dialog::backdrop{background:rgba(8,6,20,.7);backdrop-filter:blur(4px)}
 dialog{max-height:calc(100dvh - 20px)}
 .swrap{position:relative;aspect-ratio:16/9;min-height:210px}
 .swrap>.screen{position:absolute;inset:0;aspect-ratio:auto;min-height:0}
-.search-open.has-song .swrap>.screen{position:fixed;inset:auto auto calc(39px + env(safe-area-inset-bottom)) 12px;width:108px;height:58px;z-index:36;border-radius:8px;pointer-events:none}
+.search-open.has-song .swrap>.screen{position:fixed;inset:auto auto calc(51px + env(safe-area-inset-bottom)) 20px;width:92px;height:52px;z-index:36;border-radius:12px;pointer-events:none;box-shadow:0 6px 18px -6px rgba(0,0,0,.7)}
+.screen.flip{z-index:40}
 .search-open .tapjoin,.search-open .empty{display:none}
 .strig{display:flex;align-items:center;gap:12px;width:100%;height:50px;padding:0 18px;border-radius:99px;background:rgba(244,239,230,.07);border:1px solid var(--line);color:var(--mute);font-size:15px;text-align:left}
 .strig svg{width:18px;height:18px;flex:none}.strig span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#sheet{position:fixed;left:0;right:0;top:calc(56px + env(safe-area-inset-top));bottom:calc(36px + env(safe-area-inset-bottom));z-index:30;background:var(--bg);display:flex;flex-direction:column;transform:translateY(104%);visibility:hidden;transition:transform .38s cubic-bezier(.2,.8,.2,1),visibility 0s .38s}
-.search-open #sheet{transform:none;visibility:visible;transition:transform .38s cubic-bezier(.2,.8,.2,1),visibility 0s}
-.search-open.has-song #sheet{bottom:calc(100px + env(safe-area-inset-bottom))}
+#sheet{position:fixed;left:0;right:0;top:calc(56px + env(safe-area-inset-top));bottom:calc(36px + env(safe-area-inset-bottom));z-index:30;background:var(--bg);display:flex;flex-direction:column;opacity:0;transform:translateY(46px) scale(.985);visibility:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s ease,bottom .5s cubic-bezier(.2,.8,.2,1),visibility 0s .5s}
+.search-open #sheet{opacity:1;transform:none;visibility:visible;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease,bottom .5s cubic-bezier(.2,.8,.2,1),visibility 0s}
+.search-open.has-song #sheet{bottom:calc(118px + env(safe-area-inset-bottom))}
 .shead{display:flex;align-items:center;gap:6px;padding:10px clamp(12px,4vw,24px) 8px}
 .shead .sbar{flex:1}
 .sback{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:var(--ink);flex:none}.sback svg{width:22px;height:22px}
@@ -240,17 +243,20 @@ dialog{max-height:calc(100dvh - 20px)}
 .sbody .rpanel{margin:0;border:0;background:none;padding:0;max-height:none;overflow:visible}
 .shint{color:var(--mute);text-align:center;padding:40px 20px;font-size:14px}
 .sbody:has(#results:not([hidden])) .shint{display:none}
-.mini{position:fixed;left:0;right:0;bottom:calc(36px + env(safe-area-inset-bottom));height:64px;z-index:34;display:flex;align-items:center;gap:12px;padding:0 12px 0 132px;background:#1d1840;border-top:1px solid var(--line);transform:translateY(130%);transition:transform .38s cubic-bezier(.2,.8,.2,1);cursor:pointer}
-.search-open.has-song .mini{transform:none}
-.mini:before{content:'';position:absolute;left:0;top:-1px;height:2px;width:var(--mp,0%);background:linear-gradient(90deg,#ff6f59,#ffc15e,#3ddbc4,#a78bfa)}
-.mini div{flex:1;min-width:0}
-.mini b{display:block;font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mini small{display:block;color:var(--mute);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mpp{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;flex:none}
+.mini{position:fixed;left:10px;right:10px;bottom:calc(44px + env(safe-area-inset-bottom));height:66px;z-index:34;display:flex;align-items:center;gap:12px;padding:0 12px 0 114px;border-radius:20px;background:linear-gradient(135deg,rgba(42,35,96,.95),rgba(24,19,56,.95));-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.1);box-shadow:0 14px 34px -8px rgba(0,0,0,.6);overflow:hidden;cursor:pointer;opacity:0;transform:translateY(26px) scale(.96);pointer-events:none;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.search-open.has-song .mini{opacity:1;transform:none;pointer-events:auto;transition-delay:.06s}
+.mini:before{content:'';position:absolute;left:14px;right:14px;bottom:5px;height:3px;border-radius:3px;background:rgba(244,239,230,.12)}
+.mini:after{content:'';position:absolute;left:14px;bottom:5px;height:3px;width:calc((100% - 28px)*var(--mpf,0));border-radius:3px;background:linear-gradient(90deg,#ff6f59,#ffc15e,#3ddbc4,#a78bfa)}
+.mini div{flex:1;min-width:0;padding-bottom:4px}
+.mini b{display:block;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini small{display:block;color:var(--mute);font-size:12.5px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meq{margin-bottom:4px}
+.mpp{width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;flex:none;margin-bottom:4px;box-shadow:0 6px 16px -6px rgba(244,239,230,.55);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.mpp:active{transform:scale(.88)}
 .mpp .ic{width:18px;height:18px}.mpp:not(.on) .ic{transform:translateX(1.5px)}
 .mpp.on .ic i{clip-path:polygon(22% 0,78% 0,78% 100%,22% 100%)}
 .toast{z-index:60;bottom:calc(52px + env(safe-area-inset-bottom))}
-.search-open.has-song .toast{bottom:calc(116px + env(safe-area-inset-bottom))}
+.search-open.has-song .toast{bottom:calc(130px + env(safe-area-inset-bottom))}
 .actions.inv .row{display:block}.actions.inv .row .field{display:none}
 .actions.inv #join{width:100%;background:var(--ink);color:var(--bg);border:0}
 dialog{overflow:hidden;overscroll-behavior:contain}
@@ -286,6 +292,22 @@ dialog .sheet{max-height:calc(100dvh - 20px);overflow-y:auto;overscroll-behavior
 .tile>span:last-child{min-width:0;display:block}
 .tile b{display:block}
 .tile small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.donebtn{padding:9px 22px;border-radius:99px;background:var(--ink);color:var(--bg);font-weight:600;font-size:14px;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.donebtn:active{transform:scale(.92)}
+.ctl{gap:clamp(8px,2.8vw,20px)}
+.sk10 svg{width:26px;height:26px;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+#back10:active svg{transform:rotate(-35deg)}#fwd10:active svg{transform:rotate(35deg)}
+.res{animation:rise .42s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#queue li.fresh{animation:curIn .7s cubic-bezier(.2,.8,.2,1)}
+@keyframes curIn{0%{background:rgba(167,139,250,0);box-shadow:inset 0 0 0 transparent;transform:translateX(-8px)}45%{background:rgba(167,139,250,.34)}100%{background:rgba(167,139,250,.14);box-shadow:inset 3px 0 var(--lilac);transform:none}}
+.veil.swap{animation:veilIn .8s cubic-bezier(.2,.8,.2,1)}
+@keyframes veilIn{from{transform:scale(1.1);opacity:.15}to{transform:none;opacity:1}}
+img,.veil,.photo{-webkit-user-drag:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+img{pointer-events:none}
+dialog,dialog *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+dialog ::selection{background:transparent}
+dialog a{-webkit-user-drag:none}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -300,7 +322,7 @@ dialog .sheet{max-height:calc(100dvh - 20px);overflow-y:auto;overscroll-behavior
 
 <main id="home" class="view">
   <div class="hero">
-    <h1>The Sound of Togetherness</h1>
+    <h1>The Sound of <span class="tg">Togetherness</span></h1>
     <p class="lede">Play the same YouTube song on every phone, at the same moment. Start a room, share the code, press play.</p>
     <div class="invite" id="invite" hidden><span>You’re invited to room</span><b id="invCode"></b></div>
     <div class="actions">
@@ -331,27 +353,29 @@ dialog .sheet{max-height:calc(100dvh - 20px);overflow-y:auto;overscroll-behavior
   <div class="stage">
     <section class="player">
       <div class="swrap"><div class="screen"><div id="yt"></div><div class="veil" id="veil"></div>
-        <div class="empty" id="empty"><b>No song yet</b><span>Paste a YouTube link to start the room.</span></div>
+        <div class="empty" id="empty"><b id="emTitle">No song yet</b><span id="emSub">Paste a YouTube link to start the room.</span></div>
         <button class="tapjoin" id="tap" hidden>Tap to join the music</button></div></div>
       <div class="meta"><h2 id="title">Nothing playing</h2><p id="author"></p></div>
       <div class="seek"><span id="tc">0:00</span><input type="range" id="seek" min="0" max="1000" value="0" aria-label="Seek"><span id="td">0:00</span></div>
       <div class="ctl">
         <button id="prev" aria-label="Previous song"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9.5 12z"/></svg></button>
+        <button id="back10" class="sk10" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V2L8 6l4 4V7a6 6 0 1 1-6 6"/><text x="12" y="16.2" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="DM Sans,sans-serif">10</text></svg></button>
         <button class="big" id="pp" aria-label="Play"><span class="ic"><i></i><i></i></span></button>
+        <button id="fwd10" class="sk10" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(24 0) scale(-1 1)"><path d="M12 5V2L8 6l4 4V7a6 6 0 1 1-6 6"/></g><text x="12" y="16.2" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="DM Sans,sans-serif">10</text></svg></button>
         <button id="next" aria-label="Next song"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg></button>
         <div class="vol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M17 8.5a5 5 0 0 1 0 7"/></svg><input type="range" id="vol" min="0" max="100" value="80" aria-label="Volume"></div>
       </div>
     </section>
     <aside class="side">
       <button class="strig" id="openSearch" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search songs or paste a YouTube link</span></button>
-      <div><h3>Queue</h3><ol id="queue"></ol></div>
+      <div><h3>Queue <span id="qc">0 songs</span></h3><ol id="queue"></ol></div>
       <div id="reqBox" hidden><h3>Requests</h3><ul id="reqList"></ul></div>
       <div><h3>Listening <span id="lc">1</span></h3><ul id="ppl"></ul></div>
     </aside>
   </div>
 </main>
 <footer class="foot"><button class="made" id="aboutBtn" aria-label="About the developer"><svg viewBox="0 0 32 20" fill="none" stroke-width="2.6" stroke-linecap="round"><path d="M2 10c4-9 8-9 14 0s10 9 14 0" stroke="#ff6f59"/><path d="M2 10c4-9 8-9 14 0s10 9 14 0" stroke="#3ddbc4" transform="translate(0 3)"/></svg><span>Made by <b>Pallab Ghosh</b></span></button><span class="yt">Plays via YouTube</span></footer>
-<div class="mini" id="mini" role="button" aria-label="Open the player"><div><b id="mTitle"></b><small id="mAuthor"></small></div><button class="mpp" id="mpp" aria-label="Play or pause"><span class="ic"><i></i><i></i></span></button></div>
+<div class="mini" id="mini" role="button" aria-label="Open the player"><div><b id="mTitle"></b><small id="mAuthor"></small></div><span class="eq meq" aria-hidden="true"><i></i><i></i><i></i></span><button class="mpp" id="mpp" aria-label="Play or pause"><span class="ic"><i></i><i></i></span></button></div>
 <div id="sheet" aria-label="Search">
   <div class="shead"><button class="sback" id="sBack" type="button" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg></button>
     <form class="sbar" id="addF" role="search">
@@ -371,14 +395,13 @@ dialog .sheet{max-height:calc(100dvh - 20px);overflow-y:auto;overscroll-behavior
   <p class="fine">Found a bug or have an idea? Email me or message me on Instagram.<br>UNISONE v1.0 &middot; Songs belong to their creators.</p>
 </div></dialog>
 <dialog id="settings" aria-labelledby="stT"><form method="dialog" class="sheet">
-  <header><h3 id="stT">Room settings</h3><button class="x" value="close" aria-label="Close">×</button></header>
+  <header><h3 id="stT">Room settings</h3><button class="donebtn" value="done">Done</button></header>
   <div class="opt"><div><b>Max listeners</b><small>Including you</small></div><div class="step"><button type="button" id="maxM" aria-label="Fewer">−</button><output id="maxV">10</output><button type="button" id="maxP" aria-label="More">+</button></div></div>
   <div class="opt col"><div><b>Who can play and pause</b><small id="ctlHint"></small></div>
     <div class="seg" id="ctlSeg"><button type="button" data-v="host">Only me</button><button type="button" data-v="selected">Chosen people</button><button type="button" data-v="everyone">Everyone</button></div></div>
   <div class="opt"><div><b>Everyone can add songs</b></div><button type="button" class="sw" id="addSw" role="switch" aria-label="Everyone can add songs"></button></div>
   <div class="opt"><div><b>Approve new people</b><small>Ask me before anyone joins</small></div><button type="button" class="sw" id="apprSw" role="switch" aria-label="Approve new people"></button></div>
   <div class="opt"><div><b>Lock room</b><small>No one new can join</small></div><button type="button" class="sw" id="lockSw" role="switch" aria-label="Lock room"></button></div>
-  <button class="btn primary" value="done">Done</button>
 </form></dialog>
 <dialog id="leaveDlg" aria-labelledby="lvT"><form method="dialog" class="sheet">
   <header><h3 id="lvT">Leave the room?</h3><button class="x" value="stay" aria-label="Close">×</button></header>
@@ -427,11 +450,10 @@ function show(v){$('#home').hidden=v!=='home';$('#room').hidden=v!=='room';scrol
 /* ---- Signature visual: four waves (four phones) converging into unison ---- */
 function waves(cv,spread,amp){
   const c=cv.getContext('2d'),cols=['#ff6f59','#ffc15e','#3ddbc4','#a78bfa'],ph=[0,1.9,3.7,5.3];
-  const size=()=>{const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;c.setTransform(d,0,0,d,0,0)};
-  size();addEventListener('resize',size);
+  const fit=()=>{const r=cv.getBoundingClientRect(),d=devicePixelRatio||1,W=Math.round(r.width*d),H=Math.round(r.height*d);if(!W||!H)return null;if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;c.setTransform(d,0,0,d,0,0)}return[r.width,r.height]};
   let t=0;
   (function draw(){
-    const w=cv.clientWidth,h=cv.clientHeight,s=spread()+(reduce?0:.14+.1*Math.sin(t*.4));
+    const sz=fit();if(!sz){requestAnimationFrame(draw);return}const[w,h]=sz,s=spread()+(reduce?0:.14+.1*Math.sin(t*.4));
     c.clearRect(0,0,w,h);c.lineCap='round';c.lineJoin='round';
     cols.forEach((col,i)=>{
       c.beginPath();
@@ -486,7 +508,7 @@ function applyState(){
   const sig=[st.cur,st.playing,st.pos,st.at].join('|');if(sig===S.sig)return;S.sig=sig;
   clearTimeout(timer);endNudge();$('#tap').hidden=true;
   const lat=S.lat/1000,fresh=S.curKey!==st.cur,wait=st.at-srv(),exp=st.pos+Math.max(0,-wait)/1000;
-  S.curKey=st.cur;render();
+  S.curKey=st.cur;S.played=true;render();
   const begin=()=>{S.tcall=performance.now();player.playVideo()}; // remember how long this phone takes to start
   if(fresh){ // new song (or we just joined): load it, never disturb anyone else
     S.localPaused=false;S.firstPlay=true;
@@ -554,20 +576,34 @@ setInterval(()=>{
   if(!ready||!player.getDuration)return;
   const d=player.getDuration()||0,t=player.getCurrentTime()||0;
   if(!drag){$('#seek').value=d?t/d*1000:0;fill($('#seek'));$('#tc').textContent=fmt(t)}
-  $('#td').textContent=fmt(d);$('#mini').style.setProperty('--mp',(d?t/d*100:0)+'%');
+  $('#td').textContent=fmt(d);$('#mini').style.setProperty('--mpf',d?Math.min(1,t/d):0);
 },250);
 
 /* ---- Rendering ---- */
 const GRIP='<span class="grip" aria-label="Drag to reorder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8h14M5 12h14M5 16h14"/></svg></span>';
 function render(){
   if(S.dragging)return;
-  S.i=S.queue.findIndex(x=>x.k===S.curKey);const q=S.queue[S.i],g=can();
-  $('#title').textContent=q?q.title:'Nothing playing';
-  $('#author').textContent=q?q.author:'';
-  $('#empty').hidden=S.i>=0;document.body.classList.toggle('has-song',S.i>=0);$('#mTitle').textContent=q?q.title:'';$('#mAuthor').textContent=q?q.author:'';
+  S.i=S.queue.findIndex(x=>x.k===S.curKey);const q=S.queue[S.i],g=can(),done=S.i<0&&S.played;
+  const changed=!!q&&S.shown!==q.k;
+  $('#title').textContent=q?q.title:(done?'Queue finished':'Nothing playing');
+  $('#author').textContent=q?q.author:(done?'Add more songs to keep the music going.':'');
+  $('#emTitle').textContent=done?'Queue finished':'No song yet';
+  $('#emSub').textContent=done?'Add more songs to keep the music going.':'Paste a YouTube link to start the room.';
+  $('#empty').hidden=S.i>=0;document.body.classList.toggle('has-song',S.i>=0);
+  $('#mTitle').textContent=q?q.title:'';$('#mAuthor').textContent=q?q.author:'';
   $('#veil').style.backgroundImage=q?`url(https://i.ytimg.com/vi/${q.id}/hqdefault.jpg)`:'none';
+  if(changed){
+    S.shown=q.k;S.freshUntil=Date.now()+800;
+    if(!reduce){
+      const kf=[{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],o={duration:560,easing:'cubic-bezier(.2,.8,.2,1)'};
+      $('#title').animate(kf,o);$('#author').animate(kf,{...o,delay:80,fill:'backwards'});
+      const v=$('#veil');v.classList.remove('swap');void v.offsetWidth;v.classList.add('swap');
+    }
+  }else if(!q)S.shown=null;
+  const fresh=Date.now()<(S.freshUntil||0);
+  $('#qc').textContent=S.queue.length+(S.queue.length===1?' song':' songs');
   $('#queue').innerHTML=S.queue.length?S.queue.map((x,k)=>
-    `<li class="${k===S.i?'cur':''}" data-k="${k}">${g?GRIP:''}<img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt=""><div><b>${esc(x.title)}</b><small>${esc(x.author)}</small></div>${k===S.i?'<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>':''}${g?`<button data-rm="${k}" aria-label="Remove ${esc(x.title)}">\u00d7</button>`:''}</li>`).join('')
+    `<li class="${k===S.i?'cur'+(fresh?' fresh':''):''}" data-k="${k}">${g?GRIP:''}<img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" draggable="false"><div><b>${esc(x.title)}</b><small>${esc(x.author)}</small></div>${k===S.i?'<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>':''}${g?`<button data-rm="${k}" aria-label="Remove ${esc(x.title)}">\u00d7</button>`:''}</li>`).join('')
     :'<li class="none">Your queue is empty. Search or paste a link above.</li>';
 }
 const GR=[['#ff6f59','#ffc15e'],['#3ddbc4','#a78bfa'],['#a78bfa','#ff6f59'],['#ffc15e','#3ddbc4'],['#ff6f59','#a78bfa']];
@@ -584,7 +620,7 @@ function people(){
     return `<li>${avatar(p,a,b)}<span class="nm">${esc(p.name)}${p.id==='me'?' <small>(you)</small>':''}</span>${tag}${ctl}</li>`}).join('');
 }
 function applyPerms(){
-  const ok=can();['prev','next','seek'].forEach(id=>$('#'+id).disabled=!ok);
+  const ok=can();['prev','next','seek','back10','fwd10'].forEach(id=>$('#'+id).disabled=!ok);
   const add=S.host||S.settings.add;$('#link').disabled=!add;
   $('#link').placeholder=add?'Search songs or paste a YouTube link':'Only the host can add songs';
   $('#gear').hidden=!S.host;render();
@@ -636,7 +672,7 @@ function enterRoom(c,isHost){
 }
 function exit(msg){
   S.unsubs.forEach(u=>u());S.unsubs=[];clearTimeout(timer);clearTimeout(S.gone);
-  S.room='';S.joined=false;S.host=false;S.queue=[];S.curKey=null;S.state=null;S.sig='';S.people=[];
+  S.room='';S.joined=false;S.host=false;S.queue=[];S.curKey=null;S.state=null;S.sig='';S.people=[];S.played=false;S.shown=null;
   if(ready)player.stopVideo();render();closeSearch(true);show('home');history.replaceState(null,'',location.pathname);keepAwake(false);if(msg)toast(msg);
 }
 async function leave(close){
@@ -760,7 +796,7 @@ async function runSearch(q){
   $('#resList').innerHTML='<li class="sk"></li><li class="sk"></li><li class="sk"></li>';
   try{
     const list=await search(q);if(n!==rq)return;RES=list;
-    $('#resList').innerHTML=list.map(r=>{const d=S.queue.some(x=>x.id===r.id);return `<li class="res" data-id="${r.id}"><img src="https://i.ytimg.com/vi/${r.id}/mqdefault.jpg" alt=""><div><b>${esc(r.title)}</b><small>${esc(r.author)}</small></div><span class="plus${d?' done':''}">${d?'\u2713':'+'}</span></li>`}).join('');
+    $('#resList').innerHTML=list.map((r,i)=>{const d=S.queue.some(x=>x.id===r.id);return `<li class="res" style="--i:${i}" data-id="${r.id}"><img src="https://i.ytimg.com/vi/${r.id}/mqdefault.jpg" alt=""><div><b>${esc(r.title)}</b><small>${esc(r.author)}</small></div><span class="plus${d?' done':''}">${d?'\u2713':'+'}</span></li>`}).join('');
     if(!list.length)note.textContent='No songs found. Try different words.';
   }catch(e){
     if(n!==rq)return;$('#resList').innerHTML='';note.className='note warn';
@@ -864,17 +900,30 @@ document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',unlock
 
 /* ---- Spotify-style search: player shrinks to a mini bar, tap it to bring the player back ---- */
 const sheetOpen=()=>document.body.classList.contains('search-open');
-function openSearch(){
-  if(sheetOpen())return;lock();document.body.classList.add('search-open');
-  history.pushState({sheet:1},'');$('#link').focus({preventScroll:true});
+function flipFrom(el,a){
+  const b=el.getBoundingClientRect();if(!a.width||!b.width||reduce)return;
+  el.classList.add('flip');
+  const an=el.animate([{transformOrigin:'0 0',transform:`translate(${a.left-b.left}px,${a.top-b.top}px) scale(${a.width/b.width},${a.height/b.height})`},{transformOrigin:'0 0',transform:'none'}],{duration:520,easing:'cubic-bezier(.2,.8,.2,1)'});
+  an.onfinish=an.oncancel=()=>el.classList.remove('flip');
 }
-function closeSearch(pop){
-  if(!sheetOpen())return;document.body.classList.remove('search-open');$('#link').blur();unlock();
+function openSearch(){
+  if(sheetOpen())return;
+  const sc=$('.screen'),a=sc.getBoundingClientRect(),song=document.body.classList.contains('has-song');
+  lock();document.body.classList.add('search-open');
+  history.pushState({sheet:1},'');$('#link').focus({preventScroll:true});
+  if(song)flipFrom(sc,a);
+}
+function closeSearch(pop,top){
+  if(!sheetOpen())return;
+  const sc=$('.screen'),a=sc.getBoundingClientRect(),song=document.body.classList.contains('has-song');
+  document.body.classList.remove('search-open');$('#link').blur();unlock();
+  if(top)scrollTo(0,0);
   if(pop!==true&&history.state&&history.state.sheet)history.back();
+  if(song)flipFrom(sc,a);
 }
 addEventListener('popstate',()=>closeSearch(true));
 $('#openSearch').onclick=openSearch;$('#sBack').onclick=()=>closeSearch();
-$('#mini').onclick=()=>{closeSearch();scrollTo(0,0)};
+$('#mini').onclick=()=>closeSearch(false,true);
 
 /* ---- shared clock: several quick round trips to our Cloudflare Worker, keep the fastest one ---- */
 try{S.lat=Math.min(900,Math.max(60,+localStorage.getItem('unisone.lat')||250))}catch(_){S.lat=250}
@@ -892,6 +941,15 @@ async function syncClock(){
 }
 syncClock();setInterval(syncClock,90000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syncClock()});
+/* ---- skip 10 seconds, and no saving pictures with a long press ---- */
+function skip(d){
+  if(!ready||S.i<0||!can())return;
+  const dur=player.getDuration()||0,t=Math.max(0,Math.min((player.getCurrentTime()||0)+d,Math.max(0,dur-1)));
+  Sync.send({type:'seek',t});
+}
+$('#back10').onclick=()=>skip(-10);$('#fwd10').onclick=()=>skip(10);
+document.addEventListener('contextmenu',e=>{if(e.target.closest&&e.target.closest('img,.photo,.veil,.screen,.pwrap,.mini'))e.preventDefault()});
+document.addEventListener('dragstart',e=>{if(e.target.tagName==='IMG')e.preventDefault()});
 </script>
 </body>
 </html>
