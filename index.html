@@ -161,7 +161,8 @@ button:disabled,input:disabled{opacity:.4;cursor:not-allowed}
 @media(hover:hover){.gear:hover{color:var(--ink)}}.gear svg{width:18px;height:18px}
 .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pc{display:flex;align-items:center;gap:10px}
-.pc>button:not(.sw){width:28px;height:28px;border-radius:50%;color:var(--mute);font-size:18px}
+.pc>button:not(.sw):not(.btn){width:34px;height:34px;border-radius:50%;color:var(--mute);font-size:20px}
+#reqList .btn.sm{padding:9px 18px;border-radius:99px;font-size:13.5px;flex:none}
 .sw{width:42px;height:24px;border-radius:99px;background:#38335a;position:relative;flex:none;transition:background .2s}
 .sw:after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--ink);transition:transform .2s}
 .sw.on{background:var(--teal)}.sw.on:after{transform:translateX(18px)}
@@ -405,7 +406,7 @@ dialog a{-webkit-user-drag:none}
   <p class="blurb">UNISONE lets friends listen to the same song at the same moment, wherever they are. The Sound of Togetherness.</p>
   <div class="tiles"><a class="tile" href="https://zenix-pallab.netlify.app" target="_blank" rel="noopener"><span class="ti" style="--c:#b9a5ff;--cb:rgba(167,139,250,.16)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><span class="tt"><b>Portfolio</b><small>zenix-pallab.netlify.app</small></span></a><a class="tile" href="https://github.com/zenix-pallab" target="_blank" rel="noopener"><span class="ti" style="--c:#f4efe6;--cb:rgba(244,239,230,.12)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span><span class="tt"><b>GitHub</b><small>@zenix-pallab</small></span></a><a class="tile" href="https://www.instagram.com/zenix_pallab" target="_blank" rel="noopener"><span class="ti" style="--c:#ff7ab8;--cb:rgba(255,122,184,.16)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></span><span class="tt"><b>Instagram</b><small>@zenix_pallab</small></span></a><a class="tile" href="https://x.com/zenix_pallab" target="_blank" rel="noopener"><span class="ti" style="--c:#f4efe6;--cb:rgba(244,239,230,.12)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span><span class="tt"><b>X (Twitter)</b><small>@zenix_pallab</small></span></a><a class="tile" href="https://www.facebook.com/share/18Mc2tV4Ag/" target="_blank" rel="noopener"><span class="ti" style="--c:#6ea4ff;--cb:rgba(110,164,255,.16)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.026 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971h-1.513c-1.491 0-1.956.93-1.956 1.886v2.264h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073"/></svg></span><span class="tt"><b>Facebook</b><small>Pallab Ghosh</small></span></a><a class="tile" href="https://linktr.ee/zenix_pallab" target="_blank" rel="noopener"><span class="ti" style="--c:#5be37d;--cb:rgba(91,227,125,.16)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v18M12 8 7 4M12 8l5-4M12 13l-6-3M12 13l6-3M12 18l-4-2M12 18l4-2"/></svg></span><span class="tt"><b>Linktree</b><small>/zenix_pallab</small></span></a></div>
   <a class="mailbtn" href="mailto:zenix.pallab@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email me</a>
-  <p class="fine">Found a bug or have an idea? Email me or message me on Instagram.<br>UNISONE v1.0 &middot; Songs belong to their creators.</p>
+  <p class="fine">Found a bug or have an idea? Email me or message me on Instagram.<br>UNISONE v1.4.2</p>
 </div></dialog>
 <dialog id="settings" aria-labelledby="stT"><form method="dialog" class="sheet">
   <header><h3 id="stT">Room settings</h3><button class="donebtn" value="done">Done</button></header>
@@ -463,11 +464,11 @@ function show(v){$('#home').hidden=v!=='home';$('#room').hidden=v!=='room';scrol
 /* ---- Signature visual: four waves (four phones) converging into unison ---- */
 function waves(cv,spread,amp){
   const c=cv.getContext('2d'),cols=['#ff6f59','#ffc15e','#3ddbc4','#a78bfa'],ph=[0,1.9,3.7,5.3];
-  const fit=()=>{const r=cv.getBoundingClientRect(),d=devicePixelRatio||1,W=Math.round(r.width*d),H=Math.round(r.height*d);if(!W||!H)return null;if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;c.setTransform(d,0,0,d,0,0)}return[r.width,r.height]};
+  const fit=()=>{const r=cv.getBoundingClientRect(),d=devicePixelRatio||1,W=Math.round(r.width*d),H=Math.round(r.height*d);if(!W||!H)return null;if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;c.setTransform(d,0,0,d,0,0)}return[r.width,r.height,d]};
   let t=0;
   (function draw(){
-    const sz=fit();if(!sz){requestAnimationFrame(draw);return}const[w,h]=sz,s=spread()+(reduce?0:.14+.1*Math.sin(t*.4));
-    c.clearRect(0,0,w,h);c.lineCap='round';c.lineJoin='round';
+    const sz=fit();if(!sz){requestAnimationFrame(draw);return}const[w,h,d]=sz,s=spread()+(reduce?0:.14+.1*Math.sin(t*.4));
+    c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,cv.width,cv.height);c.setTransform(d,0,0,d,0,0);c.lineCap='round';c.lineJoin='round';
     cols.forEach((col,i)=>{
       c.beginPath();
       for(let x=0;x<=w+4;x+=4){
