@@ -1,34 +1,68 @@
-# UNISONE
+<p align="center">
+  <img src="og.png" alt="UNISONE · The Sound of Togetherness" width="100%">
+</p>
 
-**The Sound of Togetherness.**
+<p align="center">
+  <img src="logo.svg" alt="UNISONE logo" width="84" height="84">
+</p>
 
-Play the same YouTube song on every phone, at the same moment. Start a room, share the code, press play.
+<h1 align="center">UNISONE</h1>
 
-**Live:** https://unisone.vercel.app
+<p align="center"><b>The Sound of Togetherness</b></p>
+
+<p align="center">
+  Play the same YouTube song on every phone, at the same moment.<br>
+  Start a room, share the code, press play.
+</p>
+
+<p align="center">
+  <a href="https://unisone.vercel.app"><b>Open UNISONE</b></a>
+  &nbsp;·&nbsp;
+  <a href="CHANGELOG.md">Changelog</a>
+  &nbsp;·&nbsp;
+  <a href="#developer">Developer</a>
+</p>
+
+<p align="center">
+  <img alt="Firebase" src="https://img.shields.io/badge/Firebase-Realtime%20Database-FFCA28?style=flat-square&logo=firebase&logoColor=white">
+  <img alt="YouTube" src="https://img.shields.io/badge/YouTube-IFrame%20Player-FF0000?style=flat-square&logo=youtube&logoColor=white">
+  <img alt="Cloudflare Workers" src="https://img.shields.io/badge/Cloudflare-Workers-F38020?style=flat-square&logo=cloudflare&logoColor=white">
+  <img alt="Vercel" src="https://img.shields.io/badge/Hosted%20on-Vercel-000000?style=flat-square&logo=vercel&logoColor=white">
+  <img alt="JavaScript" src="https://img.shields.io/badge/Vanilla-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black">
+</p>
 
 ---
 
-## Features
+## Highlights
 
-**Listening together**
-- Create a room and share it with a native Share button (WhatsApp, Telegram, Instagram and more). The link opens the site and takes friends straight to the invite card for that room.
-- Search YouTube from inside the app, or paste any YouTube link.
-- Shared queue. Drag a song by its grip handle to reorder it; playback follows the new order.
-- Tight multi-device sync: a shared clock, per-device start-delay learning and gentle drift correction.
-
-**Host controls**
-- Maximum number of listeners.
-- Who can play, pause and skip: only the host, chosen people, or everyone.
-- Whether everyone can add songs.
-- Approve new people before they join, and lock the room.
-- Remove people. Hand the room over to someone else when the host leaves.
-
-**Experience**
-- Own custom player UI. YouTube's chrome (title bar, share, logo, end-screen suggestions) is hidden.
-- Spotify-style search: the player shrinks into a mini bar, and tapping it brings the player back.
-- Screen stays awake while you are in a room (Wake Lock API, where supported).
-- A listener without control permission can pause and resume just for themselves, and rejoins the shared timeline instantly.
-- Mobile first. No page zoom, no accidental text selection, fixed header and footer.
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <b>Listen together</b><br><br>
+      Rooms with a six-character code<br>
+      Invite links that open the room directly<br>
+      YouTube search or paste any link<br>
+      Shared queue with drag-to-reorder<br>
+      Tight sync across devices
+    </td>
+    <td width="33%" valign="top">
+      <b>Stay in control</b><br><br>
+      Choose who can play, pause and skip<br>
+      Approve newcomers or lock the room<br>
+      Set a listener limit<br>
+      Hand the room over when you leave<br>
+      Automatic host failover
+    </td>
+    <td width="33%" valign="top">
+      <b>Made for phones</b><br><br>
+      Spotify-style search with a mini player<br>
+      Screen stays awake in a room<br>
+      Dim mode: black screen, music keeps playing<br>
+      Rejoins your room after the screen sleeps<br>
+      Smooth, touch-first interface
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -36,149 +70,161 @@ Play the same YouTube song on every phone, at the same moment. Start a room, sha
 
 ```mermaid
 flowchart LR
-  A[Phone A - host] -- play / pause / seek --> DB[(Firebase Realtime Database)]
-  DB -- shared state --> B[Phone B]
-  DB -- shared state --> C[Phone C]
-  W[Cloudflare Worker] -- /time shared clock --> A
-  W -- /time shared clock --> B
-  W -- /time shared clock --> C
-  W -- search --> YT[YouTube Data API v3]
+  A["Phone A (host)"] -- "play · pause · seek" --> DB[("Firebase<br>Realtime Database")]
+  DB -- "shared state" --> B["Phone B"]
+  DB -- "shared state" --> C["Phone C"]
+  W["Cloudflare Worker"] -- "/time  shared clock" --> A
+  W -- "/time" --> B
+  W -- "/time" --> C
+  W -- "search" --> YT["YouTube Data API"]
 ```
 
-Every phone plays through YouTube's official IFrame Player. The app never extracts or downloads audio.
+Every phone plays through YouTube's official IFrame Player. UNISONE never extracts or downloads audio.
 
-### Sync in detail
+### Staying in sync
 
-1. **Shared state.** A controller's action is written to `rooms/{code}/state` as `{ cur, playing, pos, at }`: song key, whether it is playing, the position in seconds, and the shared-clock time at which that position holds.
-2. **Shared clock.** Each phone makes 8 quick round trips to the Worker's `/time` endpoint and keeps the fastest. All phones therefore agree on the time to within a few tens of milliseconds. Firebase's own server time offset is used as a fallback.
-3. **Scheduled start.** Play and resume are scheduled 450 ms ahead, and a new song 1800 ms ahead, so every phone can get ready and start on the same beat.
-4. **Start-delay learning.** Each phone measures how long it takes from `playVideo()` to actually playing, stores that locally, and starts that much earlier next time.
-5. **Drift correction** (every second):
-   - within 0.12 s: nothing to do
-   - up to 1.2 s: briefly play at 1.25x or 0.75x speed, with no seek and no stutter
-   - above 1.2 s: one seek, at most every 2.5 s
-6. **No disruption.** A new joiner loads the song and jumps to the right position on their own device. Phones that are already in sync are left alone.
+| Step | What happens |
+| --- | --- |
+| **Shared state** | A controller's action is stored as `{ cur, playing, pos, at }`: the song, whether it is playing, the position, and the shared-clock time at which that position holds. |
+| **Shared clock** | Each phone makes 8 quick round trips to the Worker's `/time` endpoint and keeps the fastest, so all phones agree on the time within a few tens of milliseconds. |
+| **Scheduled start** | Play and resume are scheduled 450 ms ahead, a new song 1800 ms ahead, so every phone starts on the same beat. |
+| **Start-delay learning** | Each phone measures how long it takes from `playVideo()` to actual playback and starts that much earlier next time. |
+| **Drift correction** | Within 0.12 s nothing happens. Up to 1.2 s the phone briefly plays at 1.25× or 0.75× speed, with no seek and no stutter. Beyond that, a single seek. |
+| **Undisturbed listening** | A newcomer loads the song and jumps to the right position on their own device. Phones already in sync are left alone. |
 
-No web player can be perfectly sample-accurate. Expect agreement in the tens to low hundreds of milliseconds, and the header pill shows the measured offset.
+Web players cannot be sample-accurate. Phones typically agree within tens to low hundreds of milliseconds, and the pill in the header shows the measured offset.
 
 ---
 
 ## Tech stack
 
-| Part | Technology |
+| Layer | Technology |
 | --- | --- |
-| Frontend | Single `index.html`: vanilla HTML, CSS and JavaScript (ES module). No build step. |
+| Interface | One `index.html`: vanilla HTML, CSS and JavaScript (ES module), no build step |
 | Playback | YouTube IFrame Player API |
-| Realtime and auth | Firebase Realtime Database and Anonymous Authentication (JS SDK 13.0.0 from the Google CDN) |
+| Realtime and identity | Firebase Realtime Database and Anonymous Authentication |
 | Search and shared clock | Cloudflare Worker (`worker.js`) |
 | Hosting | Vercel (static) |
 
 ---
 
-## Repository layout
+## Project structure
 
 ```
-index.html              The whole app (UI, logic, styles)
-worker.js               Cloudflare Worker: YouTube search proxy and /time clock
-database.rules.json     Firebase Realtime Database security rules
-dev.jpg                 Developer photo shown on the About card
-og.png                  Link-preview image (WhatsApp, Telegram and others)
-README.md
+.
+├── index.html            the whole app: interface, logic and styles
+├── worker.js             Cloudflare Worker: YouTube search proxy and /time clock
+├── database.rules.json   Firebase Realtime Database security rules
+├── logo.svg              logo and favicon
+├── favicon.png           favicon fallback and touch icon
+├── dev.jpg               developer photo for the About card
+├── og.png                link-preview image
+├── README.md
+└── CHANGELOG.md
 ```
 
 ---
 
-## Database structure
-
-```
-rooms/{CODE}/
-  host            uid of the host
-  createdAt       timestamp
-  settings/       max, control (host | selected | everyone), approve, locked, add
-  members/{uid}/  name, joinedAt, dj (can control playback)
-  queue/{key}/    id, title, author, ord (sort order)
-  state/          cur, playing, pos, at
-  requests/{uid}/ name (people waiting for approval)
-  kicked/{uid}    "kicked" or "denied"
-```
-
-The security rules in `database.rules.json` enforce who may control playback, add or remove songs, change settings, remove people, and change the host. Room codes cannot be listed; you must know the code.
-
----
-
-## Setup
+## Getting started
 
 ### 1. Firebase
 
-1. Create a project at https://console.firebase.google.com.
-2. **Authentication** -> Sign-in method -> enable **Anonymous**.
-3. **Realtime Database** -> Create database (pick a nearby region) -> start in locked mode.
-4. **Realtime Database** -> **Rules** -> paste the contents of `database.rules.json` -> **Publish**.
-5. **Authentication** -> Settings -> **Authorized domains** -> add your site domain (`localhost` is there by default).
-6. **Project settings** -> Your apps -> Web app -> copy the `firebaseConfig` into the top of the script in `index.html`.
+1. Create a project in the [Firebase console](https://console.firebase.google.com).
+2. **Authentication** → Sign-in method → enable **Anonymous**.
+3. **Realtime Database** → Create database → start in locked mode.
+4. **Realtime Database** → **Rules** → paste `database.rules.json` → **Publish**.
+5. **Authentication** → Settings → **Authorized domains** → add your site's domain.
+6. **Project settings** → Your apps → Web app → copy the `firebaseConfig` into the top of the script in `index.html`.
 
-### 2. Cloudflare Worker (search and clock)
+### 2. Cloudflare Worker
 
-1. Create a Google Cloud project, enable **YouTube Data API v3**, and create an API key restricted to that API only.
+1. In Google Cloud, enable **YouTube Data API v3** and create an API key restricted to that API.
 2. In Cloudflare, create a Worker and paste in `worker.js`.
-3. Under **Settings -> Variables and Secrets** add:
-   - Secret `YT_API_KEY`: your YouTube API key
-   - Variable `ALLOWED_ORIGINS`: comma-separated sites allowed to call the Worker, for example `https://unisone.vercel.app,http://localhost:5500`
-4. Deploy, then set `CONFIG.SEARCH_URL` in `index.html` to the Worker URL (keep the trailing `/`).
+3. Add under **Settings → Variables and Secrets**:
 
-Search uses 100 quota units per request and the default daily quota is 10,000, so about 100 searches a day. Results are cached for 24 hours. When the quota runs out, the app asks users to paste a link instead.
+| Name | Type | Value |
+| --- | --- | --- |
+| `YT_API_KEY` | Secret | your YouTube Data API key |
+| `ALLOWED_ORIGINS` | Variable | comma-separated sites allowed to call the Worker, e.g. `https://unisone.vercel.app,http://localhost:3000` |
+
+4. Deploy, then set `CONFIG.SEARCH_URL` in `index.html` to the Worker's URL, keeping the trailing `/`.
+
+Search costs 100 quota units per request against the default 10,000 per day, which is about 100 searches a day. Results are cached for 24 hours, and when the quota is used up the app asks people to paste a link instead.
 
 ### 3. Deploy
 
-Push to GitHub and import the repository in Vercel (Framework Preset: **Other**). Then:
-- Add the Vercel domain to the Worker's `ALLOWED_ORIGINS` and to Firebase **Authorized domains**.
-- Update the `og:url` and `og:image` meta tags in `index.html` if your domain differs from `unisone.vercel.app`.
+Push the repository to GitHub and import it in [Vercel](https://vercel.com) with the **Other** framework preset. Add the Vercel domain to the Worker's `ALLOWED_ORIGINS` and to Firebase's authorized domains.
 
 ### Run locally
 
-Serve the folder over HTTP (opening the file directly will not work):
+Serve the folder over HTTP:
 
-```
+```bash
 npx serve
 ```
 
-Add the local address (for example `http://localhost:3000`) to the Worker's `ALLOWED_ORIGINS`.
+Open the printed address and add it to the Worker's `ALLOWED_ORIGINS`.
+
+### Configuration at a glance
+
+| Setting | Where |
+| --- | --- |
+| Firebase project | `firebaseConfig` at the top of the script in `index.html` |
+| Search and clock endpoint | `CONFIG.SEARCH_URL` in `index.html` |
+| YouTube API key | `YT_API_KEY` secret in the Worker |
+| Allowed sites | `ALLOWED_ORIGINS` variable in the Worker |
+| Link preview | `og:` tags in the `<head>` of `index.html` |
 
 ---
 
-## Security notes
+## Data model
 
-- The Firebase web `apiKey` is a public project identifier, not a secret. GitHub's secret scanner will flag it; that alert can be closed as a false positive. To limit abuse, restrict that key to your website in Google Cloud (Application restrictions -> Websites).
-- The **YouTube API key** is the real secret. It lives only in the Worker's `YT_API_KEY` secret. Never commit it.
-- Keep Firebase Anonymous Auth and the published rules in place. The rules, not the UI, decide what each person is allowed to do.
+```
+rooms/{CODE}/
+├── host              uid of the host
+├── settings/         max, control (host | selected | everyone), approve, locked, add
+├── members/{uid}/    name, joinedAt, dj
+├── seen/{uid}        phones that have been admitted before
+├── queue/{key}/      id, title, author, ord
+├── state/            cur, playing, pos, at
+├── requests/{uid}/   name
+└── kicked/{uid}      "kicked" or "denied"
+```
+
+The security rules decide who may control playback, add or remove songs, change settings, remove people and change the host. Rooms cannot be listed; you need the code.
 
 ---
 
-## Known limitations
+## Good to know
 
-- **Maximum listeners** is enforced by the host's device, because Firebase rules cannot count children. If the host's phone is off, the limit is not enforced. Strict enforcement would need a server (for example Cloud Functions).
-- Moving to the next song when one ends is done mainly by the host's device. If it sleeps, the next song may not start.
-- Some browsers, notably on iPhone, block automatic playback. A "Tap to join the music" button appears when that happens. Wake Lock needs a recent browser (iOS 16.4 or later).
-- YouTube ads inside an embedded player can briefly unsettle one phone; drift correction recovers.
+- The listener limit is enforced by the host's phone, because database rules cannot count members.
+- The next song after a track ends is started mainly by the host's phone.
+- Some browsers, notably on iPhone, block automatic playback. A **Tap to join the music** button appears when that happens.
+- Audio cannot play with the screen locked inside a web page. **Dim mode** keeps the screen on behind a black cover instead.
 - Videos whose owners disable embedding cannot be played.
-- The mini player and the hidden YouTube interface differ from YouTube's default presentation. Review YouTube's API Services Terms and Developer Policies before launching this publicly or commercially.
 
 ---
 
 ## Developer
 
-**Pallab Ghosh**
-
-- Portfolio: https://zenix-pallab.netlify.app
-- GitHub: https://github.com/zenix-pallab
-- Instagram: https://www.instagram.com/zenix_pallab
-- X: https://x.com/zenix_pallab
-- Facebook: https://www.facebook.com/share/18Mc2tV4Ag/
-- Linktree: https://linktr.ee/zenix_pallab
-- Email: zenix.pallab@gmail.com
+<table>
+  <tr>
+    <td valign="middle"><b>Pallab Ghosh</b></td>
+    <td valign="middle">
+      <a href="https://zenix-pallab.netlify.app">Portfolio</a> ·
+      <a href="https://github.com/zenix-pallab">GitHub</a> ·
+      <a href="https://www.instagram.com/zenix_pallab">Instagram</a> ·
+      <a href="https://x.com/zenix_pallab">X</a> ·
+      <a href="https://www.facebook.com/share/18Mc2tV4Ag/">Facebook</a> ·
+      <a href="https://linktr.ee/zenix_pallab">Linktree</a> ·
+      <a href="mailto:zenix.pallab@gmail.com">Email</a>
+    </td>
+  </tr>
+</table>
 
 ---
 
-## License
-
-No license has been chosen yet. Add a `LICENSE` file before accepting outside contributions. All songs and videos belong to their creators and are played through YouTube's official player.
+<p align="center">
+  <img src="logo.svg" alt="" width="28" height="28"><br>
+  <sub>Made with care by Pallab Ghosh · Songs play through YouTube's official player</sub>
+</p>
