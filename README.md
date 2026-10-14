@@ -115,7 +115,8 @@ Web players cannot be sample-accurate. Phones typically agree within tens to low
 ├── index.html            the whole app: interface, logic and styles
 ├── worker.js             Cloudflare Worker: YouTube search proxy and /time clock
 ├── database.rules.json   Firebase Realtime Database security rules
-├── logo.svg              logo and favicon
+├── logo.svg              logo
+├── favicon.svg           favicon
 ├── favicon.png           favicon fallback and touch icon
 ├── dev.jpg               developer photo for the About card
 ├── og.png                link-preview image
