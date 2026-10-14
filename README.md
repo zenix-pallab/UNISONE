@@ -183,6 +183,7 @@ Open the printed address and add it to the Worker's `ALLOWED_ORIGINS`.
 ```
 rooms/{CODE}/
 ├── host              uid of the host
+├── lastSeen          when someone was last in the room
 ├── settings/         max, control (host | selected | everyone), approve, locked, add
 ├── members/{uid}/    name, joinedAt, dj
 ├── seen/{uid}        phones that have been admitted before
