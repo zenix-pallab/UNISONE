@@ -7,6 +7,11 @@ UNISONE uses **MAJOR.MINOR.PATCH** versions.
 
 The current version is shown on the About card (Made by Pallab Ghosh, in the footer).
 
+## 1.5.3
+- Fix: the host always stays at the top of the Listening list, also after the screen was turned off and on
+- Fix: a room that has ended (everyone left, nobody for 5 minutes) is no longer rejoined automatically, and it says "That room has ended."
+- Mini player: more space between the progress bar and the play button
+
 ## 1.5.2
 - The original favicon (one wave) is back for the browser tab and the touch icon
 - The logo in the header and the README keeps the three waves
