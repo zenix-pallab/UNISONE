@@ -7,6 +7,13 @@ UNISONE uses **MAJOR.MINOR.PATCH** versions.
 
 The current version is shown on the About card (Made by Pallab Ghosh, in the footer).
 
+## 1.5.2
+- The original favicon (one wave) is back for the browser tab and the touch icon
+- The logo in the header and the README keeps the three waves
+
+## 1.5.1
+- Logo and favicon now match the logo in the site header (three waves) everywhere: browser tab, touch icon and README
+
 ## 1.5.0
 - Fix: the app no longer leaves the room when the screen is turned off and on again. It reconnects patiently, re-syncs the song when the screen wakes, remembers the room, and rejoins it automatically if the browser reloaded the page
 - Phones that were admitted before can return to locked or approval-only rooms (database rules updated)
