@@ -7,6 +7,13 @@ UNISONE uses **MAJOR.MINOR.PATCH** versions.
 
 The current version is shown on the About card (Made by Pallab Ghosh, in the footer).
 
+## 1.6.0
+- UNISONE can now be installed as an app (manifest, icons, service worker, "Install app" button) and packaged as an Android app
+- Faster start: the YouTube player loads only when a room is opened; the app files are cached
+- Privacy Policy and Terms of Use pages, linked from the home screen and the About card
+- "Room has ended" window is now 2 minutes (the "still here" signal is sent every 30 seconds)
+- README rewritten for the people who use UNISONE, with the developer details at the end
+
 ## 1.5.4
 - Fix: in Dim mode, scrolling hard no longer shows the page behind the black cover (the page is locked and the cover extends past the screen edges)
 - Search metadata: better title and description, canonical link, robots rules, structured data (WebApplication), richer link-preview tags
