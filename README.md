@@ -120,6 +120,9 @@ Web players cannot be sample-accurate. Phones typically agree within tens to low
 ├── favicon.png           favicon fallback and touch icon
 ├── dev.jpg               developer photo for the About card
 ├── og.png                link-preview image
+├── robots.txt            search-engine rules
+├── sitemap.xml           search-engine sitemap
+├── google4bac51bffc979ddf.html   Search Console site verification
 ├── README.md
 └── CHANGELOG.md
 ```
