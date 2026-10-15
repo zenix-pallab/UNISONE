@@ -7,6 +7,11 @@ UNISONE uses **MAJOR.MINOR.PATCH** versions.
 
 The current version is shown on the About card (Made by Pallab Ghosh, in the footer).
 
+## 1.5.4
+- Fix: in Dim mode, scrolling hard no longer shows the page behind the black cover (the page is locked and the cover extends past the screen edges)
+- Search metadata: better title and description, canonical link, robots rules, structured data (WebApplication), richer link-preview tags
+- Added robots.txt, sitemap.xml and the Google Search Console verification file
+
 ## 1.5.3
 - Fix: the host always stays at the top of the Listening list, also after the screen was turned off and on
 - Fix: a room that has ended (everyone left, nobody for 5 minutes) is no longer rejoined automatically, and it says "That room has ended."
