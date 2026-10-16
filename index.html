@@ -27,6 +27,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="alternate icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-192.png">
+<script>window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__bip=e;window.dispatchEvent(new Event("bip"))});</script>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="UNISONE">
@@ -346,6 +347,8 @@ html.dim,html.dim body{overscroll-behavior:none}
 .legal{font-size:12px;line-height:1.5;color:var(--mute);text-align:center}
 .legal a,.fine a{color:var(--ink);text-decoration:underline;text-decoration-color:rgba(244,239,230,.3);text-underline-offset:3px}
 .ghostbtn{width:calc(100% - 36px);background:rgba(244,239,230,.08);color:var(--ink);border:1px solid var(--line)}
+.steps{margin:8px 0 8px 22px;color:var(--ink)}.steps li{margin:10px 0;line-height:1.5}
+.ghostbtn svg{width:18px;height:18px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -433,10 +436,15 @@ html.dim,html.dim body{overscroll-behavior:none}
   <p class="blurb">UNISONE lets friends listen to the same song at the same moment, wherever they are. The Sound of Togetherness.</p>
   <div class="tiles"><a class="tile" href="https://zenix-pallab.netlify.app" target="_blank" rel="noopener"><span class="ti" style="--c:#b9a5ff;--cb:rgba(167,139,250,.16)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><span class="tt"><b>Portfolio</b><small>zenix-pallab.netlify.app</small></span></a><a class="tile" href="https://github.com/zenix-pallab" target="_blank" rel="noopener"><span class="ti" style="--c:#f4efe6;--cb:rgba(244,239,230,.12)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span><span class="tt"><b>GitHub</b><small>@zenix-pallab</small></span></a><a class="tile" href="https://www.instagram.com/zenix_pallab" target="_blank" rel="noopener"><span class="ti" style="--c:#ff7ab8;--cb:rgba(255,122,184,.16)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></span><span class="tt"><b>Instagram</b><small>@zenix_pallab</small></span></a><a class="tile" href="https://x.com/zenix_pallab" target="_blank" rel="noopener"><span class="ti" style="--c:#f4efe6;--cb:rgba(244,239,230,.12)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span><span class="tt"><b>X (Twitter)</b><small>@zenix_pallab</small></span></a><a class="tile" href="https://www.facebook.com/share/18Mc2tV4Ag/" target="_blank" rel="noopener"><span class="ti" style="--c:#6ea4ff;--cb:rgba(110,164,255,.16)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.026 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971h-1.513c-1.491 0-1.956.93-1.956 1.886v2.264h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073"/></svg></span><span class="tt"><b>Facebook</b><small>Pallab Ghosh</small></span></a><a class="tile" href="https://linktr.ee/zenix_pallab" target="_blank" rel="noopener"><span class="ti" style="--c:#5be37d;--cb:rgba(91,227,125,.16)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v18M12 8 7 4M12 8l5-4M12 13l-6-3M12 13l6-3M12 18l-4-2M12 18l4-2"/></svg></span><span class="tt"><b>Linktree</b><small>/zenix_pallab</small></span></a></div>
   <a class="mailbtn" href="mailto:zenix.pallab@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email me</a>
-  <button class="mailbtn ghostbtn" id="installBtn" type="button" hidden>Install app</button>
+  <button class="mailbtn ghostbtn" id="installBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>Install app</button>
   <p class="fine"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Use</a></p>
-  <p class="fine">Found a bug or have an idea? Email me or message me on Instagram.<br>UNISONE v1.6.0</p>
+  <p class="fine">Found a bug or have an idea? Email me or message me on Instagram.<br>UNISONE v1.6.1</p>
 </div></dialog>
+<dialog id="installDlg" aria-labelledby="inT"><form method="dialog" class="sheet">
+  <header><h3 id="inT">Install UNISONE</h3><button class="donebtn" value="done">Done</button></header>
+  <p class="note">Add UNISONE to your home screen so it opens like an app.</p>
+  <ol class="steps" id="instSteps"></ol>
+</form></dialog>
 <dialog id="settings" aria-labelledby="stT"><form method="dialog" class="sheet">
   <header><h3 id="stT">Room settings</h3><button class="donebtn" value="done">Done</button></header>
   <div class="opt"><div><b>Max listeners</b><small>Including you</small></div><div class="step"><button type="button" id="maxM" aria-label="Fewer">−</button><output id="maxV">10</output><button type="button" id="maxP" aria-label="More">+</button></div></div>
@@ -978,7 +986,7 @@ let sy=0,locked=false;
 function lock(){if(locked)return;locked=true;sy=scrollY;const b=document.body.style;b.position='fixed';b.top='-'+sy+'px';b.left='0';b.right='0'}
 function unlock(){if(!locked)return;locked=false;const b=document.body.style;b.position=b.top=b.left=b.right='';scrollTo(0,sy)}
 function openDlg(d){lock();d.showModal()}
-document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',unlock));
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',()=>{if(!document.querySelector('dialog[open]'))unlock()}));
 
 /* ---- Spotify-style search: player shrinks to a mini bar, tap it to bring the player back ---- */
 const sheetOpen=()=>document.body.classList.contains('search-open');
@@ -1056,10 +1064,25 @@ function closeDim(pop){
 $('#dim').onclick=openDim;$('#dimmer').onclick=()=>closeDim();
 $('#dimmer').addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
 /* ---- install as an app, and keep the saved copy fresh ---- */
-let deferredInstall=null;
-addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('#installBtn').hidden=false});
+let deferredInstall=window.__bip||null;
+addEventListener('bip',()=>{deferredInstall=window.__bip});
+const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+$('#installBtn').hidden=standalone();
 addEventListener('appinstalled',()=>{deferredInstall=null;$('#installBtn').hidden=true;toast('UNISONE installed')});
-$('#installBtn').onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();try{await deferredInstall.userChoice}catch(_){}deferredInstall=null;$('#installBtn').hidden=true};
+function installSteps(){
+  const ua=navigator.userAgent;
+  $('#instSteps').innerHTML=/iPhone|iPad|iPod/.test(ua)
+    ?'<li>Tap the <b>Share</b> button in Safari.</li><li>Choose <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li>'
+    :/Android/.test(ua)
+    ?'<li>Tap the <b>\u22ee</b> menu in Chrome (top right).</li><li>Choose <b>Install app</b> (or <b>Add to Home screen</b>).</li><li>Tap <b>Install</b>.</li>'
+    :'<li>Look for the <b>install</b> icon at the right end of the address bar.</li><li>Click it, then choose <b>Install</b>.</li>';
+  if($('#aboutDlg').open)$('#aboutDlg').close();
+  openDlg($('#installDlg'));
+}
+$('#installBtn').onclick=async()=>{
+  if(deferredInstall){deferredInstall.prompt();try{await deferredInstall.userChoice}catch(_){}deferredInstall=null;return}
+  installSteps();
+};
 if('serviceWorker' in navigator){
   const had=!!navigator.serviceWorker.controller;
   addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
