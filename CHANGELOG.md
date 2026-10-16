@@ -7,6 +7,10 @@ UNISONE uses **MAJOR.MINOR.PATCH** versions.
 
 The current version is shown on the About card (Made by Pallab Ghosh, in the footer).
 
+## 1.6.1
+- Fix: the "Install app" button in the About card was missing on phones where the browser does not offer the automatic install prompt. It is now always there (unless the app is already installed): it installs straight away when the browser allows it, and otherwise shows the steps for Android, iPhone and desktop
+- The browser's install offer is captured as early as possible, so it is never missed
+
 ## 1.6.0
 - UNISONE can now be installed as an app (manifest, icons, service worker, "Install app" button) and packaged as an Android app
 - Faster start: the YouTube player loads only when a room is opened; the app files are cached
