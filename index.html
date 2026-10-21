@@ -349,6 +349,18 @@ html.dim,html.dim body{overscroll-behavior:none}
 .ghostbtn{width:calc(100% - 36px);background:rgba(244,239,230,.08);color:var(--ink);border:1px solid var(--line)}
 .steps{margin:8px 0 8px 22px;color:var(--ink)}.steps li{margin:10px 0;line-height:1.5}
 .ghostbtn svg{width:18px;height:18px}
+.gear.on{color:var(--ink);background:rgba(244,239,230,.1)}
+.rx{display:flex;justify-content:center;gap:6px;margin-top:18px}
+.rx[hidden]{display:none}
+.rx button{width:44px;height:44px;border-radius:50%;font-size:23px;line-height:1;background:rgba(244,239,230,.06);border:1px solid var(--line);display:grid;place-items:center;transition:transform .25s cubic-bezier(.34,1.56,.64,1),background .8s ease-out}
+.rx button:active{transform:scale(1.3) translateY(-3px);background:rgba(244,239,230,.16);transition:transform .15s,background .06s}
+#rxLayer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:33}
+.rxe{position:absolute;bottom:170px;display:flex;flex-direction:column;align-items:center;will-change:transform,opacity}
+.rxe span{font-size:38px;line-height:1;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.rxe small{margin-top:2px;font-size:10px;color:#f4efe6;background:rgba(20,16,43,.7);padding:1px 7px;border-radius:99px}
+@media(max-width:340px){.view{padding-left:12px;padding-right:12px}h1{font-size:1.7rem}.ctl{gap:6px}.ctl button{width:40px;height:40px}.ctl .big{width:58px;height:58px}.rx button{width:38px;height:38px;font-size:20px}.code{font-size:22px}}
+@media(max-height:560px){.lede,.legal{display:none}.heroWave{display:none}h1{font-size:clamp(1.5rem,6vh,2.4rem)}#home{min-height:0}.vwrap{min-height:150px}.stage{gap:20px;padding-top:14px}.meta{margin-top:12px}.seek{margin-top:10px}.ctl{margin-top:12px}.rx{margin-top:12px}}
+@media(min-width:560px) and (max-height:520px){.stage{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -390,6 +402,7 @@ html.dim,html.dim body{overscroll-behavior:none}
         <button class="shr" id="share" aria-label="Share this room"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button></div></div>
     <canvas id="syncWave" aria-hidden="true"></canvas>
     <div class="pill" id="pill"><i></i><span id="pillTxt">Connecting…</span></div>
+    <button class="gear" id="bell" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 20a2 2 0 0 1-3.4 0"/></svg></button>
     <button class="gear" id="dim" aria-label="Dim the screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
     <button class="gear" id="gear" aria-label="Room settings" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
     <button class="leave" id="leave">Leave</button>
@@ -409,6 +422,7 @@ html.dim,html.dim body{overscroll-behavior:none}
         <button id="next" aria-label="Next song"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg></button>
         <div class="vol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M17 8.5a5 5 0 0 1 0 7"/></svg><input type="range" id="vol" min="0" max="100" value="80" aria-label="Volume"></div>
       </div>
+      <div class="rx" id="rx" role="group" aria-label="Send a reaction" hidden><button data-r="heart" aria-label="Heart">❤️</button><button data-r="fire" aria-label="Fire">🔥</button><button data-r="clap" aria-label="Clap">👏</button><button data-r="love" aria-label="Love">😍</button><button data-r="music" aria-label="Music">🎶</button><button data-r="laugh" aria-label="Laugh">😂</button></div>
     </section>
     <aside class="side">
       <button class="strig" id="openSearch" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search songs or paste a YouTube link</span></button>
@@ -438,7 +452,7 @@ html.dim,html.dim body{overscroll-behavior:none}
   <a class="mailbtn" href="mailto:zenix.pallab@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email me</a>
   <button class="mailbtn ghostbtn" id="installBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>Install app</button>
   <p class="fine"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Use</a></p>
-  <p class="fine">Found a bug or have an idea? Email me or message me on Instagram.<br>UNISONE v1.6.1</p>
+  <p class="fine">Found a bug or have an idea? Email me or message me on Instagram.<br>UNISONE v1.7.0</p>
 </div></dialog>
 <dialog id="installDlg" aria-labelledby="inT"><form method="dialog" class="sheet">
   <header><h3 id="inT">Install UNISONE</h3><button class="donebtn" value="done">Done</button></header>
@@ -453,6 +467,7 @@ html.dim,html.dim body{overscroll-behavior:none}
   <div class="opt"><div><b>Everyone can add songs</b></div><button type="button" class="sw" id="addSw" role="switch" aria-label="Everyone can add songs"></button></div>
   <div class="opt"><div><b>Approve new people</b><small>Ask me before anyone joins</small></div><button type="button" class="sw" id="apprSw" role="switch" aria-label="Approve new people"></button></div>
   <div class="opt"><div><b>Lock room</b><small>No one new can join</small></div><button type="button" class="sw" id="lockSw" role="switch" aria-label="Lock room"></button></div>
+  <div class="opt"><div><b>Reactions</b><small>Let people send emoji</small></div><button type="button" class="sw" id="rxSw" role="switch" aria-label="Reactions"></button></div>
 </form></dialog>
 <dialog id="leaveDlg" aria-labelledby="lvT"><form method="dialog" class="sheet">
   <header><h3 id="lvT">Leave the room?</h3><button class="x" value="stay" aria-label="Close">×</button></header>
@@ -461,6 +476,7 @@ html.dim,html.dim body{overscroll-behavior:none}
   <button class="btn ghost" type="button" id="endBtn">End room for everyone</button>
   <button class="btn ghost" value="stay">Stay</button>
 </form></dialog>
+<div id="rxLayer" aria-hidden="true"></div>
 <div id="dimmer" hidden><span>Tap anywhere to wake</span></div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -646,13 +662,13 @@ function render(){
   $('#mTitle').textContent=q?q.title:'';$('#mAuthor').textContent=q?q.author:'';
   $('#veil').style.backgroundImage=q?`url(https://i.ytimg.com/vi/${q.id}/hqdefault.jpg)`:'none';
   if(changed){
-    S.shown=q.k;S.freshUntil=Date.now()+800;
+    S.shown=q.k;S.freshUntil=Date.now()+800;notify('Now playing',q.title+(q.author?' · '+q.author:''),'song');mediaSession(q);
     if(!reduce){
       const kf=[{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],o={duration:560,easing:'cubic-bezier(.2,.8,.2,1)'};
       $('#title').animate(kf,o);$('#author').animate(kf,{...o,delay:80,fill:'backwards'});
       const v=$('#veil');v.classList.remove('swap');void v.offsetWidth;v.classList.add('swap');
     }
-  }else if(!q)S.shown=null;
+  }else if(!q){S.shown=null;mediaSession(null)}
   $('#qc').textContent=S.queue.length+(S.queue.length===1?' song':' songs');
   renderQueue(g);
 }
@@ -695,7 +711,7 @@ function applyPerms(){
   const ok=can();['prev','next','seek','back10','fwd10'].forEach(id=>$('#'+id).disabled=!ok);
   const add=S.host||S.settings.add;$('#link').disabled=!add;
   $('#link').placeholder=add?'Search songs or paste a YouTube link':'Only the host can add songs';
-  $('#gear').hidden=!S.host;render();
+  $('#gear').hidden=!S.host;$('#rx').hidden=S.settings.reactions===false||!S.room;render();
 }
 async function removeSong(idx){
   const q=S.queue[idx];if(!q||!guard())return;
@@ -725,6 +741,8 @@ function listen(){
   on('members',x=>{
     const m=x.val()||{};S.inRoom=!!m[uid];if(m[uid]&&typeof m[uid].joinedAt==='number')S.myJoined=m[uid].joinedAt;
     S.people=Object.entries(m).map(([id,v])=>({id:id===uid?'me':id,uid:id,name:v.name||'Guest',host:id===S.hostUid,dj:!!v.dj,j:v.joinedAt||0})).sort((a,b)=>(b.host-a.host)||(a.j-b.j));
+    if(S.pmInit&&S.host)S.people.forEach(p=>{if(!S.pm.has(p.uid)&&p.uid!==uid)notify(p.name+' joined','Someone just joined your room','join')});
+    S.pm=new Set(S.people.map(p=>p.uid));S.pmInit=true;
     people();applyPerms();
     if(S.host&&S.settings.max&&S.people.length>S.settings.max)
       S.people.filter(p=>!p.host).slice(S.settings.max-1).forEach(p=>remove(ref(db,P('members/'+p.uid))));
@@ -735,18 +753,28 @@ function listen(){
   on('queue',x=>{
     const v=x.val()||{},prev=S.queue.length,first=!S.qSeen;S.qSeen=true;
     S.queue=Object.keys(v).map(k=>({k,...v[k]})).sort((a,b)=>(a.ord||0)-(b.ord||0)||(a.k<b.k?-1:1));render();applyState();
+    if(S.pending&&S.qSeen){const pid=S.pending;S.pending=null;addSong({id:pid,title:'',author:''},true)}
     if(!first&&S.host&&S.stateLoaded&&S.queue.length>prev&&!(S.state&&S.state.cur))Sync.send({type:'load',i:S.queue.length-1});
   });
   on('state',x=>{S.state=x.val();S.stateLoaded=true;applyState()});
   on('requests',x=>renderReq(x.val()||{}));
+  on('reactions',x=>{
+    const v=x.val()||{};
+    Object.entries(v).forEach(([id,r])=>{
+      if(!r||S.rseen[id]===r.n)return;S.rseen[id]=r.n;
+      if(S.rInit&&S.settings.reactions!==false)floatReaction(r.e,id===uid?'':((S.people.find(p=>p.uid===id)||{}).name||''));
+    });
+    S.rInit=true;
+  });
   on('kicked/'+uid,x=>{if(x.exists())exit(x.val()==='denied'?'The host declined your request.':'You were removed from the room.')});
 }
 function renderReq(r){
   const ids=Object.keys(r);$('#reqBox').hidden=!S.host||!ids.length;
+  if(S.host)ids.forEach(id=>{if(!S.reqSeen.has(id)){S.reqSeen.add(id);notify('Join request',(r[id].name||'Someone')+' wants to join your room','req')}});
   $('#reqList').innerHTML=ids.map(id=>`<li><span class="nm">${esc(r[id].name)}</span><span class="pc"><button class="btn primary sm" data-ok="${id}">Allow</button><button data-no="${id}" aria-label="Decline">\u00d7</button></span></li>`).join('');
 }
 function enterRoom(c,isHost){
-  S.room=c;S.host=isHost;S.joined=true;S.qSeen=false;S.stateLoaded=false;
+  S.room=c;S.host=isHost;S.joined=true;S.qSeen=false;S.stateLoaded=false;S.rseen={};S.rInit=false;S.pm=new Set();S.pmInit=false;S.reqSeen=new Set();bellUI();
   try{localStorage.setItem('unisone.session',JSON.stringify({c,t:Date.now()}))}catch(_){}
   $('#codeTxt').textContent=c;$('#homeMsg').textContent='';show('room');history.replaceState(null,'',location.pathname);loadYT();initPlayer();listen();announce();keepAwake(true);
 }
@@ -784,7 +812,7 @@ async function create(){
     const c=code();
     try{
       await set(ref(db,'rooms/'+c),{host:uid,createdAt:serverTimestamp(),lastSeen:serverTimestamp(),
-        settings:{max:10,control:'host',approve:false,locked:false,add:true},
+        settings:{max:10,control:'host',approve:false,locked:false,add:true,reactions:true},
         members:{[uid]:{name:S.name,joinedAt:serverTimestamp(),dj:true}},
         state:{playing:false,pos:0,at:0}});
       return enterRoom(c,true);
@@ -936,7 +964,7 @@ const dlg=$('#settings');
 function settingsUI(){
   const st=S.settings;$('#maxV').textContent=st.max;
   document.querySelectorAll('#ctlSeg button').forEach(b=>b.classList.toggle('on',b.dataset.v===st.control));
-  [['addSw','add'],['apprSw','approve'],['lockSw','locked']].forEach(([id,k])=>{$('#'+id).classList.toggle('on',!!st[k]);$('#'+id).setAttribute('aria-checked',!!st[k])});
+  [['addSw','add'],['apprSw','approve'],['lockSw','locked'],['rxSw','reactions']].forEach(([id,k])=>{const v=k==='reactions'?st[k]!==false:!!st[k];$('#'+id).classList.toggle('on',v);$('#'+id).setAttribute('aria-checked',v)});
   $('#ctlHint').textContent={host:'Only you can play, pause and skip.',selected:'Switch on \u201cCan control\u201d next to a name in the listener list.',everyone:'Everyone in the room can play, pause and skip.'}[st.control];
 }
 $('#gear').onclick=()=>{settingsUI();openDlg(dlg)};
@@ -945,7 +973,7 @@ const setS=o=>update(ref(db,P('settings')),o).catch(()=>toast('Couldn\u2019t sav
 $('#maxM').onclick=()=>setS({max:Math.max(2,S.people.length,(S.settings.max||10)-1)});
 $('#maxP').onclick=()=>setS({max:Math.min(50,(S.settings.max||10)+1)});
 $('#ctlSeg').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setS({control:b.dataset.v})};
-[['addSw','add'],['apprSw','approve'],['lockSw','locked']].forEach(([id,k])=>$('#'+id).onclick=()=>setS({[k]:!S.settings[k]}));
+[['addSw','add'],['apprSw','approve'],['lockSw','locked'],['rxSw','reactions']].forEach(([id,k])=>$('#'+id).onclick=()=>{const cur=k==='reactions'?S.settings[k]!==false:!!S.settings[k];setS({[k]:!cur})});
 $('#ppl').onclick=e=>{
   const d=e.target.closest('[data-dj]'),k=e.target.closest('[data-kick]');
   if(d){const p=S.people.find(x=>x.uid===d.dataset.dj);if(p)update(ref(db,P('members/'+p.uid)),{dj:!p.dj}).catch(()=>toast('Not allowed.'))}
@@ -1087,6 +1115,63 @@ if('serviceWorker' in navigator){
   const had=!!navigator.serviceWorker.controller;
   addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
   navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had)toast('A new version is ready. It loads the next time you open UNISONE.')});
+}
+/* ---- reactions: emoji that float up on every phone ---- */
+const RX={heart:'\u2764\ufe0f',fire:'\ud83d\udd25',clap:'\ud83d\udc4f',love:'\ud83d\ude0d',music:'\ud83c\udfb6',laugh:'\ud83d\ude02'};
+function floatReaction(k,name){
+  const L=$('#rxLayer');if(!RX[k]||L.children.length>30)return;
+  const el=document.createElement('div');el.className='rxe';
+  el.style.left=(10+Math.random()*72)+'%';
+  el.innerHTML=`<span>${RX[k]}</span>${name?`<small>${esc(name)}</small>`:''}`;
+  L.appendChild(el);
+  if(reduce){setTimeout(()=>el.remove(),1500);return}
+  const dx=(Math.random()-.5)*60,dur=2200+Math.random()*1200;
+  const a=el.animate([{transform:'translate(0,0) scale(.5)',opacity:0},{transform:`translate(${dx/3}px,-14vh) scale(1.15)`,opacity:1,offset:.18},{transform:`translate(${dx}px,-58vh) scale(1)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.7,.3,1)'});
+  a.onfinish=()=>el.remove();
+}
+let lastRx=0;
+function react(k){
+  if(!S.room||S.settings.reactions===false||!RX[k])return;
+  const now=Date.now();if(now-lastRx<700)return;lastRx=now;
+  if(navigator.vibrate)navigator.vibrate(8);
+  set(ref(db,P('reactions/'+uid)),{e:k,n:now,t:serverTimestamp()}).catch(()=>{});
+}
+$('#rx').onclick=e=>{const b=e.target.closest('[data-r]');if(b)react(b.dataset.r)};
+
+/* ---- notifications (shown while UNISONE is in the background) and media controls ---- */
+const notifyOn=()=>{try{return localStorage.getItem('unisone.notify')==='1'&&'Notification' in window&&Notification.permission==='granted'}catch(_){return false}};
+function bellUI(){$('#bell').classList.toggle('on',notifyOn())}
+async function notify(title,body,tag){
+  if(!notifyOn()||document.visibilityState==='visible')return;
+  try{const reg=await navigator.serviceWorker.ready;await reg.showNotification(title,{body,tag,icon:'/icon-192.png',badge:'/icon-192.png',data:{url:'/'}})}catch(_){}
+}
+$('#bell').onclick=async()=>{
+  if(!('Notification' in window)){toast('This browser does not support notifications.');return}
+  if(Notification.permission==='denied'){toast('Notifications are blocked. Allow them in your browser\u2019s site settings.');return}
+  if(notifyOn()){try{localStorage.setItem('unisone.notify','0')}catch(_){}bellUI();toast('Notifications off');return}
+  const p=Notification.permission==='granted'?'granted':await Notification.requestPermission();
+  if(p==='granted'){try{localStorage.setItem('unisone.notify','1')}catch(_){}bellUI();toast('Notifications on')}
+  else toast('Notifications were not allowed.');
+};
+bellUI();
+function mediaSession(q){
+  if(!('mediaSession' in navigator))return;
+  try{navigator.mediaSession.metadata=q?new MediaMetadata({title:q.title,artist:q.author,album:'UNISONE',artwork:[{src:'https://i.ytimg.com/vi/'+q.id+'/hqdefault.jpg',sizes:'480x360',type:'image/jpeg'}]}):null}catch(_){}
+}
+if('mediaSession' in navigator){
+  const ms=(a,f)=>{try{navigator.mediaSession.setActionHandler(a,f)}catch(_){}};
+  ms('play',()=>togglePlay());ms('pause',()=>togglePlay());
+  ms('previoustrack',()=>step(-1));ms('nexttrack',()=>step(1));
+  ms('seekbackward',()=>skip(-10));ms('seekforward',()=>skip(10));
+}
+
+/* ---- songs shared to UNISONE from other apps, and the app shortcuts ---- */
+{
+  const qs=new URLSearchParams(location.search),act=qs.get('action'),shared=(qs.get('url')||'')+' '+(qs.get('text')||'')+' '+(qs.get('title')||''),sid=vid(shared);
+  if(sid){S.pending=sid;toast('Song saved. Start or join a room to add it.')}
+  if(sid||act)history.replaceState(null,'',location.pathname);
+  if(act==='join')setTimeout(()=>$('#code').focus(),300);
+  else if(act==='new'){if($('#name').value.trim())go(create);else setTimeout(()=>$('#name').focus(),300)}
 }
 </script>
 </body>
