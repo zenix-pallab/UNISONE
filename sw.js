@@ -1,6 +1,6 @@
 // UNISONE service worker: fast start and an offline-ready app shell.
 // Only our own static files are cached. Rooms, search and YouTube always go to the network.
-const CACHE = 'unisone-v1.7.0';
+const CACHE = 'unisone-v1.7.1';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/logo.svg', '/favicon.svg', '/favicon.png',
   '/icon-192.png', '/icon-512.png', '/dev.jpg', '/privacy.html', '/terms.html'];
 
