@@ -1,6 +1,6 @@
 // UNISONE service worker: fast start and an offline-ready app shell.
 // Only our own static files are cached. Rooms, search and YouTube always go to the network.
-const CACHE = 'unisone-v1.6.1';
+const CACHE = 'unisone-v1.7.0';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/logo.svg', '/favicon.svg', '/favicon.png',
   '/icon-192.png', '/icon-512.png', '/dev.jpg', '/privacy.html', '/terms.html'];
 
@@ -30,4 +30,21 @@ self.addEventListener('fetch', e => {
     const net = fetch(req).then(res => { if (res.ok) cache.put(req, res.clone()); return res; }).catch(() => hit);
     return hit || net;
   })));
+});
+
+// Tapping a notification brings UNISONE to the front (or opens it).
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    for (const c of list) { if ('focus' in c) return c.focus(); }
+    return self.clients.openWindow((e.notification.data && e.notification.data.url) || '/');
+  }));
+});
+
+// Ready for server-sent push messages (no push server is connected yet).
+self.addEventListener('push', e => {
+  let d = {}; try { d = e.data ? e.data.json() : {}; } catch (_) {}
+  e.waitUntil(self.registration.showNotification(d.title || 'UNISONE', {
+    body: d.body || '', icon: '/icon-192.png', badge: '/icon-192.png', data: { url: d.url || '/' }
+  }));
 });
