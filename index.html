@@ -452,7 +452,7 @@ html.dim,html.dim body{overscroll-behavior:none}
   <a class="mailbtn" href="mailto:zenix.pallab@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email me</a>
   <button class="mailbtn ghostbtn" id="installBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>Install app</button>
   <p class="fine"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Use</a></p>
-  <p class="fine">Found a bug or have an idea? Email me or message me on Instagram.<br>UNISONE v1.7.0</p>
+  <p class="fine">Found a bug or have an idea? Email me or message me on Instagram.<br>UNISONE v1.7.1</p>
 </div></dialog>
 <dialog id="installDlg" aria-labelledby="inT"><form method="dialog" class="sheet">
   <header><h3 id="inT">Install UNISONE</h3><button class="donebtn" value="done">Done</button></header>
@@ -808,17 +808,18 @@ async function keepAwake(on){
 }
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&S.room){keepAwake(true);S.sig='';announce();applyState();try{localStorage.setItem('unisone.session',JSON.stringify({c:S.room,t:Date.now()}))}catch(_){}}});
 async function create(){
+  let last=null;
   for(let i=0;i<6;i++){
     const c=code();
     try{
       await set(ref(db,'rooms/'+c),{host:uid,createdAt:serverTimestamp(),lastSeen:serverTimestamp(),
-        settings:{max:10,control:'host',approve:false,locked:false,add:true,reactions:true},
+        settings:{max:10,control:'host',approve:false,locked:false,add:true},
         members:{[uid]:{name:S.name,joinedAt:serverTimestamp(),dj:true}},
         state:{playing:false,pos:0,at:0}});
-      return enterRoom(c,true);
-    }catch(_){}
+    }catch(e){last=e;continue}
+    return enterRoom(c,true);
   }
-  throw 'Couldn\u2019t create a room. Try again.';
+  throw 'Couldn\u2019t create a room ('+((last&&(last.code||last.message))||'error')+'). Please try again.';
 }
 async function join(c){
   const r=await get(ref(db,'rooms/'+c));
