@@ -1,0 +1,128 @@
+{
+  "id": "/",
+  "name": "UNISONE",
+  "short_name": "UNISONE",
+  "description": "Listen to the same YouTube song at the same moment on every phone.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#14102b",
+  "theme_color": "#14102b",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": [
+    "music",
+    "entertainment",
+    "social"
+  ],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Start a room",
+      "short_name": "New room",
+      "description": "Create a room and invite friends",
+      "url": "/?action=new",
+      "icons": [
+        {
+          "src": "/shortcut-new.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Join a room",
+      "short_name": "Join",
+      "description": "Enter a room code",
+      "url": "/?action=join",
+      "icons": [
+        {
+          "src": "/shortcut-join.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "launch_handler": {
+    "client_mode": [
+      "navigate-existing",
+      "auto"
+    ]
+  },
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "edge_side_panel": {
+    "preferred_width": 420
+  },
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "screenshots": [
+    {
+      "src": "/screenshots/home.png",
+      "sizes": "1080x2400",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Start a room or join a friend"
+    },
+    {
+      "src": "/screenshots/room.png",
+      "sizes": "1080x2400",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Listen together, in sync"
+    },
+    {
+      "src": "/screenshots/search.png",
+      "sizes": "1080x2400",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Search songs and add them to the queue"
+    },
+    {
+      "src": "/screenshots/mini-player.png",
+      "sizes": "1080x2400",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mini player while you search"
+    },
+    {
+      "src": "/screenshots/about.png",
+      "sizes": "1080x2400",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "About the developer"
+    }
+  ]
+}
