@@ -1,8 +1,8 @@
 // UNISONE service worker: fast start and an offline-ready app shell.
 // Only our own static files are cached. Rooms, search and YouTube always go to the network.
-const CACHE = 'unisone-v1.7.1';
+const CACHE = 'unisone-v1.8.0';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/logo.svg', '/favicon.svg', '/favicon.png',
-  '/icon-192.png', '/icon-512.png', '/dev.jpg', '/privacy.html', '/terms.html'];
+  '/icon-192.png', '/shortcut-new.png', '/shortcut-join.png', '/icon-512.png', '/dev.jpg', '/privacy.html', '/terms.html'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(SHELL.map(u => c.add(u).catch(() => {})))).then(() => self.skipWaiting()));
